@@ -3,12 +3,59 @@ CREATE TABLE IF NOT EXISTS users(
     user_login varchar(256) NOT NULL UNIQUE,
 	user_password varchar(256) NOT NULL,
 	user_email varchar(256) NOT NULL,
-	is_admin BIT DEFAULT 0 NOT NULL,
+	is_admin BOOLEAN DEFAULT false NOT NULL,
 	PRIMARY KEY(user_id),
 	CHECK(LENGTH(user_login)>=6),
 	CHECK(LENGTH(user_password)>=6)
 );
 
 INSERT INTO USERS VALUES (666,'Admin666',
-							  'b10249b3b99c35a0fca54c73c2194879343ff6ebd35fe937b20f4e528522bb8c',
-                              'alexanidandr@gmail.com', 1);
+							  'Admin666',
+                              'alexanidandr@gmail.com', true);
+
+create or replace function login_user(
+    user_login_n users.user_login%type,
+    user_password_n users.user_password%type
+) returns INT
+language plpgsql
+as
+$body$
+declare
+    found_id INT;
+begin
+
+    SELECT users.user_id
+        INTO found_id
+            FROM users
+                WHERE (users.user_login LIKE user_login_n AND user_password LIKE user_password_n);
+    
+    IF found_id IS NULL then
+    found_id := -1;
+    END IF;
+
+    return found_id;
+    exception
+        when others then
+            return -1;
+end;
+$body$
+
+create or replace function get_user_info(
+   user_id int
+) RETURNS customers
+language sql
+as
+$body$
+  select * from customers
+  where customers.customer_id = c_id;
+$body$;
+
+createe or replace function get_user_info(
+    u_id int
+) RETURNS users
+language sql
+as
+$body$
+    select * from users
+    where users.user_id = u_id;
+$body$

@@ -6,8 +6,8 @@
     <article class="card-body mx-auto" style="max-width: 600px;">
         <br><br>
         <h4 class="card-title mt-3 text-center">Вхід в акаунт</h4>
-        <br><br>
-        <form action="" name="addForm" id="addForm" method="POST" class="needs-validation" novalidate>
+        <br>
+        <form action="{{url_for('login')}}" name="addForm" id="addForm" method="POST" class="needs-validation" novalidate>
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                   <label>Логін</label>
