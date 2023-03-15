@@ -56,7 +56,7 @@ def course(course_id):
 
     cursor = connection.cursor()
     cursor.execute("select * from courses where courses.fk_user_id = 666 and courses.course_id = 1")
-    (course_id, user_id, title, subtitle, day_posted, content) = cursor.fetchone().split(',')
+    # (course_id, user_id, title, subtitle, day_posted, content) = cursor.fetchone().split(',')
     connection.close()
     
     return render_template('course.html')
