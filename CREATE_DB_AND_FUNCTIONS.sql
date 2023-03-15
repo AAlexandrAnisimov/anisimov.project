@@ -85,10 +85,12 @@ end;
 $body$
 
 create or replace function get_course_info(
+   u_id int,
+   c_id int
 ) RETURNS courses
 language sql
 as
 $body$
   select * from courses
-  where courses.fk_user_id = 666 and courses.course_id = 1;
+  where courses.fk_user_id = u_id and courses.course_id = c_id;
 $body$;
