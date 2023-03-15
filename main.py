@@ -29,6 +29,21 @@ def about():
 def add():
     return render_template('add.html')
 
+@server.route('/addcourse', methods=['POST'])
+def addcourse():
+    title = request.form['title']
+    subtitle = request.form['subtitle']
+    content = request.form['content']
+
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.callproc('create_course', (g.user_id, title, subtitle, content))
+    connection.close()
+
+    return redirect(url_for("index"))
+
 @server.route('/post')
 def post():
     return render_template('post.html')
