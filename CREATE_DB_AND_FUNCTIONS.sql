@@ -41,16 +41,6 @@ end;
 $body$
 
 create or replace function get_user_info(
-   user_id int
-) RETURNS customers
-language sql
-as
-$body$
-  select * from customers
-  where customers.customer_id = c_id;
-$body$;
-
-createe or replace function get_user_info(
     u_id int
 ) RETURNS users
 language sql

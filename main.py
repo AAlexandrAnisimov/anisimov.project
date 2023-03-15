@@ -63,7 +63,7 @@ def login():
             session['user_role'] = u_role
             connection.close()
 
-            return redirect(url_for("index"))
+            return render_template('index.html')
         else:
             connection.close()
             flash('There is no user with that login')
