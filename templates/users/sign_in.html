@@ -7,14 +7,11 @@
         <br><br><br>
         <h4 class="card-title mt-3 text-center">Увійти в акаунт</h4>
         <form method="post" class="needs-validation" novalidate>
-        <div class="form-group input-group input-group-lg">
-            <div class="input-group-prepend">
-                <i class="fa fa-user"></i>
-            </div>
-            <input name="login" class="form-control" pattern="[a-zA-Z0-9 ]+" placeholder="Логін" type="text"
-                   required>
-            <div class="invalid-feedback">
-              Будь ласка, введіть правильний логін!
+        <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Логін</label>
+              <input name="login" type="text" class="form-control" placeholder="Логін" id="subtitle" pattern="[a-zA-Z0-9 ]+" required data-validation-required-message="Please enter your email address.">
+              <p class="help-block text-danger"></p>
             </div>
         </div>
         <div class="form-group input-group input-group-lg">
