@@ -47,9 +47,25 @@ def addcourse():
 
     return redirect(url_for("index"))
 
-@server.route('/post')
-def post():
-    return render_template('post.html')
+
+@server.route('/course/<int:course_id>')
+def course(course_id):
+
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+
+    cursor.execute(f"SELECT get_course_info({(g.user_id, course_id)})")
+    result = cursor.fetchall()[0]
+    (c_id, u_id, title, subtitle, day_posted, content) = result[0][1:-1].split(',')
+    connection.close()
+
+    return render_template('course.html',
+                                c_title=title,
+                                c_subtitle=subtitle,
+                                c_day_posted=day_posted,
+                                c_content=content)
 
 @server.route('/users/login', methods=['GET', 'POST'])
 def login():
