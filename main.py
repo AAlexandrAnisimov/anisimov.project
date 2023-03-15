@@ -50,6 +50,16 @@ def addcourse():
 
 @server.route('/course/<course_id>')
 def course(course_id):
+
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute("select * from courses where courses.fk_user_id = 666 and courses.course_id = 1")
+    result = cursor.fetchall()[0]
+    (course_id, user_id, title, subtitle, day_posted, content) = result[0][1:-1].split(',')
+    connection.close()
+    
     return render_template('course.html')
 
 @server.route('/users/login', methods=['GET', 'POST'])
