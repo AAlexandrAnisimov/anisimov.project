@@ -21,21 +21,23 @@
     <!-- Custom styles for this template -->
     <link href="{{ url_for('static', filename='css/clean-blog.min.css') }}" rel="stylesheet">
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-
-    <!-- Custom scripts for this template -->
-    <script src="{{ url_for('static', filename='js/clean-blog.min.js') }}"></script>
-
   </head>
 
   <body>
-{%include 'nav.html' %}
-{% block content %}
-{% endblock %}
-{%include 'footer.html'%}
+
+    {%include 'nav.html' %}
+    {% block content %}
+    {% endblock %}
+    {%include 'footer.html'%}
+
   </body>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="{{ url_for('static', filename='js/clean-blog.min.js') }}"></script>
 
 </html>
