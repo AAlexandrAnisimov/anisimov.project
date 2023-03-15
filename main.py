@@ -56,9 +56,8 @@ def course(course_id):
 
     cursor = connection.cursor()
 
-    cursor.execute(f"SELECT get_course_info({(g.user_id, course_id)})")
-    result = cursor.fetchall()[0]
-    (c_id, u_id, title, subtitle, day_posted, content) = result[0][1:-1].split(',')
+    cursor.execute("SELECT * FROM courses WHERE courses.fk_user_id = 666 and courses.course_id = 1")
+    (course_id, user_id, title, subtitle, day_posted, content) = cursor.fetchone().split(',')
     connection.close()
 
     return render_template('course.html',
