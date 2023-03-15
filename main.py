@@ -55,7 +55,7 @@ def course(course_id):
     connection.autocommit = True
 
     cursor = connection.cursor()
-    cursor.execute("SELECT get_course_info(%(u_id)s, %(c_id)s),", {'u_id': 666, 'c_id': 1})
+    cursor.execute("""SELECT get_course_info(%(u_id)s, %(c_id)s)""", {'u_id': 666, 'c_id': 1})
     result = cursor.fetchall()[0]
     # (course_id, user_id, title, subtitle, day_posted, content) = result[0][1:-1].split(',')
     connection.close()
