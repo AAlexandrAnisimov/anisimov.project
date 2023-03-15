@@ -4,31 +4,29 @@
 <div class="container">
     <div class="card bg-light">
     <article class="card-body mx-auto" style="max-width: 600px;">
-        <br><br><br>
-        <h4 class="card-title mt-3 text-center">Увійти в акаунт</h4>
-        <form method="post" class="needs-validation" novalidate>
-        <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
-              <label>Логін</label>
-              <input name="login" type="text" class="form-control" placeholder="Логін" id="subtitle" pattern="[a-zA-Z0-9 ]+" required data-validation-required-message="Please enter your email address.">
-              <p class="help-block text-danger"></p>
+        <h4 class="card-title mt-3 text-center">Вхід в акаунт</h4>
+        <form action="" method="post" class="needs-validation" novalidate>
+        <div class="form-group input-group input-group-lg">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+             </div>
+            <input name="login" class="form-control" pattern="[a-zA-Z0-9 ]+" placeholder="Логін" type="text"
+                   required>
+            <div class="invalid-feedback">
+              Будь ласка, введіть правильний логін!
             </div>
         </div>
-        <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
-              <label>Логін</label>
-              <input name="pass" type="password" class="form-control" placeholder="Пароль" id="myInput" pattern="[a-zA-Z0-9 ]+" required data-validation-required-message="Please enter your email address.">
-              <button type="button">
-                <i onclick="ShowPassword(this)" class="fa fa-eye"></i>
-              </button>
-              <p class="help-block text-danger"></p>
+        <div class="form-group input-group input-group-lg">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+            </div>
+            <input name="pass" id="myInput" class="form-control" placeholder="Пароль" type="password" required>
+            <div class="invalid-feedback">
+              Будь ласка, введіть правильний пароль!
             </div>
         </div>
         <div class="form-group " id="submit_button">
             <button type="submit" class="btn btn-primary btn-block"> Увійти  </button>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block" id="sendMessageButton">Send</button>
         </div>
         <p style="margin-bottom: 3px" class="text-center">Не маєте акаунта? <a href="">
             Реєстрація</a></p>
