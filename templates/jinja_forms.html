@@ -30,14 +30,14 @@
     {% endblock %}
     {%include 'footer.html'%}
 
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{{ url_for('static', filename='js/clean-blog.min.js') }}"></script>
+    
   </body>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-
-  <!-- Custom scripts for this template -->
-  <script src="{{ url_for('static', filename='js/clean-blog.min.js') }}"></script>
 
 </html>
