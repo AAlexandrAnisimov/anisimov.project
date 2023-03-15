@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Система відгуків</title>
+    <title>Додати курс</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
@@ -20,16 +20,10 @@
 
     <!-- Custom styles for this template -->
     <link href="{{ url_for('static', filename='css/clean-blog.min.css') }}" rel="stylesheet">
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-
-    <!-- Custom scripts for this template -->
-    <script src="{{ url_for('static', filename='js/clean-blog.min.js') }}"></script>
-
+    
   </head>
+
+  {%include 'nav.html'%}
   <body>
     <!-- Page Header -->
     <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/post-bg.jpg') }}')">
@@ -88,8 +82,10 @@
     </div>
 
     <hr>
+
+    {%include 'footer.html'%}
   </body>
-  
+
   <!-- Bootstrap core JavaScript -->
   <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
