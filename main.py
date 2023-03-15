@@ -19,7 +19,10 @@ def before_request():
 
 @server.route('/')
 def index():
-    return render_template('index.html')
+    if g.user_nickname == None:
+        return redirect(url_for("login"))
+    else:
+        return render_template('index.html')
 
 @server.route('/about')
 def about():
