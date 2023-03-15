@@ -1,7 +1,10 @@
 import os
+import psycopg2
 from flask import Flask, render_template, request, redirect, url_for
+from config import Config
 
 server = Flask(__name__)
+server.config.from_object(Config)
 
 @server.route('/')
 def index():
