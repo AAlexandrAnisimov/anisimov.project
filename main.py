@@ -56,11 +56,10 @@ def course(course_id):
 
     cursor = connection.cursor()
     cursor.execute("SELECT get_course_info(666, 1)")
-    result = cursor.fetchone()
-    # (course_id, user_id, title, subtitle, day_posted, content) = result[0][1:-1].split(',')
+    (course_id, user_id, title, subtitle, day_posted, content) = cursor.fetchone()
     connection.close()
     
-    return render_template('course.html')
+    return render_template('course.html', c_title = title, c_subtitle = subtitle)
 
 @server.route('/users/login', methods=['GET', 'POST'])
 def login():
