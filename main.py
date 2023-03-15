@@ -48,7 +48,7 @@ def addcourse():
     return redirect(url_for("index"))
 
 
-@server.route('/course/<id>')
+@server.route('/course/<course_id>')
 def course(course_id):
     return render_template('course.html')
 
