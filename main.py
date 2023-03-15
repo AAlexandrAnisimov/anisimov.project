@@ -56,7 +56,12 @@ def login():
             session['user_id'] = exit_code
             session['user_nickname'] = login
 
-           
+            cursor.execute(f"SELECT get_user_info({session['user_id']})")
+            result = cursor.fetchall()[0]
+            (u_id, u_login, u_password, u_email, u_role) = result[0][1:-1].split(',')
+
+            session['user_role'] = u_role
+            connection.close()
 
             return render_template('index.html')
         else:
