@@ -62,7 +62,9 @@ def course(course_id):
     # (course_id, user_id, title, subtitle, day_posted, content) = cursor.fetchone().split(',')
     connection.close()
     
-    return render_template('course.html')
+    return render_template('course.html',
+                           c_title = title,
+                           c_subtitle = subtitle)
 
 @server.route('/users/login', methods=['GET', 'POST'])
 def login():
