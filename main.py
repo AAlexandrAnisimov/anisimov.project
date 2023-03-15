@@ -8,7 +8,7 @@ server.config.from_object(Config)
 
 @server.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('users/sign_in.html')
 
 @server.route('/about')
 def about():
