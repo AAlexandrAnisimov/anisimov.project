@@ -33,11 +33,21 @@
             <input type="text" class="form-control" name="lname" placeholder="Прізвище">
           </div>
           <div class="form-group">
-            <input type="radio" id="student" name="role" value="student">
+            <input type="radio" class="form-control" id="student" name="role" value="student">
             <label for="student">Студент</label><br>
-            <input type="radio" id="teacher" name="role" value="teacher">
+            <input type="radio" class="form-control" id="teacher" name="role" value="teacher">
             <label for="teacher">Викладач</label><br>
           </div>
+          {% if document.getElementById('student').checked) %}
+          <div class="form-group">
+            <input type="text" class="form-control" name="lname" placeholder="Прізвище">
+          </div>
+          {% endif %}
+          {% if document.getElementById('teacher').checked) %}
+          <div class="form-group">
+            <input type="text" class="form-control" name="fname" placeholder="Ім'я">
+          </div>
+          {% endif %}
           <button class="btn btn-primary btn-block">
             Додати нового користувача
           </button>
