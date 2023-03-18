@@ -151,13 +151,20 @@ def adduser():
 
     if login == '':
         flash('Введіть логін!')
-        return redirect(url_for('admin')) 
-
-    cursor = connection.cursor()
-    cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
-                   (login, password, email, fname, lname))
-    flash('Користувача успішно додано')
-    connection.close()
+    elif password == '':
+        flash('Введіть пароль!')
+    elif email == '':
+        flash('Введіть email!')
+    elif fname == '':
+        flash('Введіть ім я!')
+    elif lname == '':
+        flash('Введіть прізвище!')
+    else:
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
+                       (login, password, email, fname, lname))
+        flash('Користувача успішно додано')
+        connection.close()
 
     return redirect(url_for('admin')) 
 
