@@ -32,7 +32,8 @@ def index():
         
         t = []
         for c in result:
-            t.append(c)
+            for i in c:
+                t.append(i)
         #g.insurance = []   
         #if contracts != []:
         #    for real_tup in contracts:
