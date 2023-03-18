@@ -185,7 +185,7 @@ def delete(id):
     connection.autocommit = True
 
     cursor = connection.cursor()
-    cursor.execute('DELETE * FROM users WHERE users.user_id = {0}'.format(id))
+    cursor.execute('DELETE FROM users WHERE user_id = {0}'.format(id))
     flash('Користувача успішно видалено')
     return redirect(url_for('admin'))
 
