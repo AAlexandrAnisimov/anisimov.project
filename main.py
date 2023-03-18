@@ -134,7 +134,28 @@ def admin():
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM users")
     users_lst = cursor.fetchall()
+    connection.close()
+
     return render_template('admin.html', users = users_lst)
+
+@server.route('/adduser', methods=['POST'])
+def adduser():
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    login = request.form['login']
+    password = request.form['password']
+    email = request.form['email']
+    fname = request.form['fname']
+    lname = request.form['lname']
+
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
+                   (login, password, email, fname, lname))
+    flash('Користувача успішно додано')
+    connection.close()
+
+    return redirect(url_for('admin')) 
 
 if __name__ == '__main__':
     server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
