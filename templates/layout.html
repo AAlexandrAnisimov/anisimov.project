@@ -40,7 +40,16 @@
             "iDisplayLength": 5
         });
     });
-  
+    
+    $(document).ready(function() {
+        $("input[name$='role']").click(function() {
+            var test = $(this).val();
+
+            $("div.desc").hide();
+            $("#Form_" + test).show();
+        });
+    });
+
 </script>
 </body>
 </html>
