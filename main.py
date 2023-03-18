@@ -65,7 +65,7 @@ def addcourse():
     return redirect(url_for("index"))
 
 
-@server.route('/course/<int:course_id>')
+@server.route('/course/<course_id>')
 def course(course_id):
 
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
