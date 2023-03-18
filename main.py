@@ -33,6 +33,7 @@ def index():
         courses = []
         for course_id, user_id, title, subtitle, day_posted, content in result:
             course = {
+                "id": course_id,
                 "title": title,
                 "subtitle": subtitle
             }
