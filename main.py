@@ -32,7 +32,7 @@ def index():
         
         t = []
         for c in result:
-            (course_id, user_id, title, subtitle, day_posted, content) = c[1:-1].split(',')
+            (course_id, user_id, title, subtitle, day_posted, content) = c[0][1:-1].split(',')
             t.append(title)
         #g.insurance = []   
         #if contracts != []:
@@ -41,7 +41,7 @@ def index():
         #else:
         #    g.insurance = 'Договір не укладено'
 
-        return render_template('index.html', titles = t)
+        return render_template('index.html', titles = t[0])
 
 @server.route('/about')
 def about():
