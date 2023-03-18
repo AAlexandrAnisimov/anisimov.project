@@ -73,12 +73,25 @@ def course(course_id):
     connection.autocommit = True
 
     cursor = connection.cursor()
-    cursor.execute("""SELECT get_course_info(%(u_id)s, %(c_id)s)""", {'u_id': g.user_id, 'c_id': course_id})
-    result = cursor.fetchall()[0]
-    (c_id, user_id, title, subtitle, day_posted, content) = result[0][1:-1].split(',')
+    #cursor.execute("""SELECT get_course_info(%(u_id)s, %(c_id)s)""", {'u_id': g.user_id, 'c_id': course_id})
+    #result = cursor.fetchall()[0]
+    #(c_id, user_id, title, subtitle, day_posted, content) = result[0][1:-1].split(',')
+    #connection.close()
+    cursor.execute("""SELECT * FROM courses WHERE courses.course_id = %(c_id)s AND courses.fk_user_id = %(u_id)s""",
+                   {'c_id': course_id, 'u_id': g.user_id})
+    result = cursor.fetchone()
     connection.close()
-    
-    return render_template('course.html', c_title = title, c_subtitle = result[0])
+
+    course = {}
+    for cid, uid, title, subtitle, day_posted, content in result:
+        course = {
+            "title": title,
+            "subtitle": subtitle,
+            "day_posted": day_posted,
+            "content": content
+        }
+
+    return render_template('course.html', c_course = course)
 
 @server.route('/users/login', methods=['GET', 'POST'])
 def login():
