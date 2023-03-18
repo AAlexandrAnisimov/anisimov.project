@@ -32,7 +32,7 @@ def index():
         
         t = []
         for c in result:
-            (course_id, user_id, title, subtitle, day_posted, content) = result[0][1:-1].split(',')
+            (course_id, user_id, title, subtitle, day_posted, content) = c[1:-1].split(',')
             t.append(title)
         #g.insurance = []   
         #if contracts != []:
