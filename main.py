@@ -28,7 +28,8 @@ def index():
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM courses")
         result = cursor.fetchall()
-
+        connection.close()
+        
         titls = []
         subtitles = []
         if result != []:
