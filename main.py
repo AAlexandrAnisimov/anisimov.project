@@ -196,10 +196,22 @@ def edit(id):
 
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM users WHERE user_id = (%s)', (id))
-    users_lst = cursor.fetchall()
+    result = cursor.fetchall()
     connection.close()
 
-    return render_template('edit.html', users = users_lst[0])
+    users_lst = []
+    for uid, login, password, email, fn, ln, role in result:
+        user = {
+            "id": uid,
+            "login": login,
+            "password": password,
+            "email": email,
+            "fname": fn,
+            "lname": ln
+        }
+        users_lst.append(user)
+
+    return render_template('edit.html', users = users_lst)
 
 if __name__ == '__main__':
     server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
