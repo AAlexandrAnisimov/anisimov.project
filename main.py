@@ -27,7 +27,7 @@ def index():
         
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM contracts")
-        contracts = cursor.fetchall()
+        contracts = cursor.fetchall()[0]
 
         #g.insurance = []
         #if contracts != []:
