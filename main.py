@@ -179,5 +179,15 @@ def adduser():
     connection.close()
     return redirect(url_for('admin')) 
 
+@server.route('/delete/<id>', methods=['POST', 'GET'])
+def delete(user_id):
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute('DELETE * FROM users WHERE users.user_id = {0}'.format(user_id))
+    flash('Користувача успішно видалено')
+    return redirect(url_for('admin'))
+
 if __name__ == '__main__':
     server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
