@@ -168,11 +168,11 @@ def adduser():
         if result != []:
             flash('Цей логін вже зайнято!')
         else:
-
-            cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
-                          (login, password, email, fname, lname))
-            flash('Користувача успішно додано')
-            connection.close()
+            flash(result)
+            #cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
+            #              (login, password, email, fname, lname))
+            #flash('Користувача успішно додано')
+            #connection.close()
 
     return redirect(url_for('admin')) 
 
