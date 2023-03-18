@@ -35,7 +35,8 @@ def index():
             course = {
                 "id": course_id,
                 "title": title,
-                "subtitle": subtitle
+                "subtitle": subtitle,
+                "day_posted": day_posted
             }
             courses.append(course)
 

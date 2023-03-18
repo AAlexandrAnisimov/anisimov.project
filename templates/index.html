@@ -29,7 +29,7 @@
                 {{ course['subtitle'] }}
               </h3>
             </a>
-            <p class="post-meta">Posted by </p>
+            <p class="post-meta">Posted by  on {{ course['date_posted'].strftime('%B %d, %Y') }} </p>
           </div>
           <hr>
           {% endfor %}
