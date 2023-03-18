@@ -214,7 +214,7 @@ def edit(id):
     return render_template('edit.html', users = users_lst)
 
 @server.route('/update/<id>', methods=['POST'])
-def edit(id):
+def update(id):
     fname = request.form['fname']
     lname = request.form['lname']
     email = request.form['email']
