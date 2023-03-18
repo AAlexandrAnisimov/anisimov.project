@@ -162,18 +162,11 @@ def adduser():
     else:
         cursor = connection.cursor()
 
-        cursor.execute("SELECT * FROM users WHERE users.user_login = (%s)", (login))
-        result = cursor.fetchall()
+        cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
+                      (login, password, email, fname, lname))
+        flash('Користувача успішно додано')
 
-        if result != []:
-            flash('Цей логін вже зайнято!')
-        else:
-            flash(result)
-            #cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
-            #              (login, password, email, fname, lname))
-            #flash('Користувача успішно додано')
-            #connection.close()
-
+    connection.close()
     return redirect(url_for('admin')) 
 
 if __name__ == '__main__':
