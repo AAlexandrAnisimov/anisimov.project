@@ -29,13 +29,12 @@ def index():
         cursor.execute("SELECT * FROM courses")
         result = cursor.fetchall()
 
-        titles = []
+        titls = []
         subtitles = []
         if result != []:
             for course in result:
                 (c_id, u_id, title, subtitle, day_posted, content) = course[0][1:-1].split(',')
-                titles.append(title)
-                subtitles.append(subtitle)
+                titls.append(title)
                 
         #g.insurance = []   
         #if contracts != []:
@@ -44,7 +43,7 @@ def index():
         #else:
         #    g.insurance = 'Договір не укладено'
 
-        return render_template('index.html', t = titles, s = subtitles)
+        return render_template('index.html', titles = titls)
 
 @server.route('/about')
 def about():
