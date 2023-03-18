@@ -4,7 +4,7 @@
     <div class="col-md-4 offset-md-4">
       <div class="card card-body">
         {% for user in users %}
-        <form action="" method="POST">
+        <form action="/update/{{user['id']}}" method="POST">
           <div class="form-group">
             <input type="text" name="fname" value="{{ user['fname'] }}" class="form-control">
           </div>

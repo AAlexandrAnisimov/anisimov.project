@@ -213,5 +213,21 @@ def edit(id):
 
     return render_template('edit.html', users = users_lst)
 
+@server.route('/update/<id>', methods=['POST'])
+def edit(id):
+    fname = request.form['fname']
+    lname = request.form['lname']
+    email = request.form['email']
+
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute("""UPDATE users SET user_fname = %s, user_lname = %s, user_email = %s WHERE user_id = %s""",
+                   (fname, lname, email, id))
+    connection.close()
+
+    return redirect(url_for('admin'))
+
 if __name__ == '__main__':
     server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
