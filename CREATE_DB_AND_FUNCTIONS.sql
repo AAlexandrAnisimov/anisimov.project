@@ -3,7 +3,9 @@ CREATE TABLE IF NOT EXISTS users(
     user_login varchar(256) NOT NULL UNIQUE,
 	user_password varchar(256) NOT NULL,
 	user_email varchar(256) NOT NULL,
-	is_admin BOOLEAN DEFAULT false NOT NULL,
+    user_fname varchar(50) NOT NULL,
+    user_lname varchar(50) NOT NULL,
+	user_role varchar(50) DEFAULT 'student',
 	PRIMARY KEY(user_id),
 	CHECK(LENGTH(user_login)>=6),
 	CHECK(LENGTH(user_password)>=6)
@@ -24,7 +26,10 @@ CREATE TABLE IF NOT EXISTS courses(
 
 INSERT INTO USERS VALUES (666,'Admin666',
 							  'Admin666',
-                              'alexanidandr@gmail.com', true);
+                              'alexanisandr@gmail.com',
+                              'Oleksandr',
+                              'Anisimov',
+                              'admin')
 
 create or replace function login_user(
     user_login_n users.user_login%type,
@@ -83,14 +88,3 @@ begin
     return status;
 end;
 $body$
-
-create or replace function get_course_info(
-   u_id int,
-   c_id int
-) RETURNS courses
-language sql
-as
-$body$
-  select * from courses
-  where courses.fk_user_id = u_id and courses.course_id = c_id;
-$body$;

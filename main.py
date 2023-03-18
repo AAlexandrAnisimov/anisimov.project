@@ -73,10 +73,6 @@ def course(course_id):
     connection.autocommit = True
 
     cursor = connection.cursor()
-    #cursor.execute("""SELECT get_course_info(%(u_id)s, %(c_id)s)""", {'u_id': g.user_id, 'c_id': course_id})
-    #result = cursor.fetchall()[0]
-    #(c_id, user_id, title, subtitle, day_posted, content) = result[0][1:-1].split(',')
-    #connection.close()
     cursor.execute("""SELECT * FROM courses WHERE courses.course_id = %(c_id)s AND courses.fk_user_id = %(u_id)s""",
                    {'c_id': course_id, 'u_id': g.user_id})
     result = cursor.fetchall()
@@ -129,6 +125,16 @@ def login():
             connection.close()
             flash('There is no user with that login')
             return render_template('users/sign_in.html')
+        
+@server.route('/admin')
+def admin():
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM users")
+    users_lst = cursor.fetchall()
+    return render_template('admin.html', users = users_lst)
 
 if __name__ == '__main__':
     server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
