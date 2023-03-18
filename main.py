@@ -26,8 +26,8 @@ def index():
         connection.autocommit = True
         
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM contracts")
-        contracts = cursor.fetchall()[0]
+        cursor.execute("SELECT * FROM courses")
+        contracts = cursor.fetchall()
 
         #g.insurance = []
         #if contracts != []:
