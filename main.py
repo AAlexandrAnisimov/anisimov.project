@@ -30,18 +30,15 @@ def index():
         result = cursor.fetchall()
         connection.close()
         
-        titles = []
-        subtitles = []
+        courses = []
         for course_id, user_id, title, subtitle, day_posted, content in result:
-            titles.append(title)
-        #g.insurance = []   
-        #if contracts != []:
-        #    for real_tup in contracts:
-        #        g.insurance.append('Тариф ' + str(real_tup[2]) + ' дійсний до ' + str(real_tup[5]))
-        #else:
-        #    g.insurance = 'Договір не укладено'
+            course = {
+                "title": title,
+                "subtitle": subtitle
+            }
+            courses.append(course)
 
-        return render_template('index.html', c_titles = titles)
+        return render_template('index.html', c_courses = courses)
 
 @server.route('/about')
 def about():

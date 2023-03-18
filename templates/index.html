@@ -19,14 +19,19 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
+        {% for course in c_courses %}
           <div class="post-preview">
             <a href="">
               <h2 class="post-title">
-                {{ c_titles }}
+                {{ course['title'] }}
               </h2>
+              <h3 class="post-subtitle">
+                {{ course['subtitle'] }}
+              </h3>
             </a>
-            <p class="post-meta">Posted by</p>
+            <p class="post-meta">Posted by </p>
           </div>
+          {% endfor %}
           <hr>
         </div>
       </div>
