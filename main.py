@@ -22,7 +22,21 @@ def index():
     if g.user_nickname == None:
         return redirect(url_for("login"))
     else:
-        return render_template('index.html')
+        connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+        connection.autocommit = True
+        
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM contracts")
+        contracts = cursor.fetchall()
+
+        #g.insurance = []
+        #if contracts != []:
+        #    for real_tup in contracts:
+        #        g.insurance.append('Тариф ' + str(real_tup[2]) + ' дійсний до ' + str(real_tup[5]))
+        #else:
+        #    g.insurance = 'Договір не укладено'
+
+        return render_template('index.html', post = contracts)
 
 @server.route('/about')
 def about():
