@@ -43,7 +43,7 @@ def index():
         #else:
         #    g.insurance = 'Договір не укладено'
 
-        return render_template('index.html', titles = titls)
+        return render_template('index.html', titles = result)
 
 @server.route('/about')
 def about():
