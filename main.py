@@ -155,6 +155,10 @@ def adduser():
         fname == '' or 
         lname == ''):
         flash('Заповніть усі поля!')
+    elif login.length() < 6:
+        flash('Логін занадто короткий (потрібно мінімум 6 символів)!')
+    elif password.length() < 6:
+        flash('Пароль занадто короткий (потрібно мінімум 6 символів)!')
     else:
         cursor = connection.cursor()
         cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
