@@ -2,14 +2,14 @@
 {% block content %}
 
   {%include 'nav.html' %}
-
+  {% for course in c_courses %}
     <!-- Page Header -->
     <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/post-bg.jpg') }}')">
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
             <div class="post-heading">
-              <h1></h1>
+              <h1>{{ course['title'] }}</h1>
               <h2 class="subheading"></h2>
               <span class="meta">Posted by
                 on </span>
@@ -18,7 +18,7 @@
         </div>
       </div>
     </header>
-
+  {% endfor %} 
     <!-- Post Content -->
     <article>
       <div class="container">

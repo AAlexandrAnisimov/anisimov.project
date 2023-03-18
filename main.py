@@ -79,10 +79,10 @@ def course(course_id):
     #connection.close()
     cursor.execute("""SELECT * FROM courses WHERE courses.course_id = %(c_id)s AND courses.fk_user_id = %(u_id)s""",
                    {'c_id': course_id, 'u_id': g.user_id})
-    result = cursor.fetchone()
+    result = cursor.fetchall()
     connection.close()
 
-    course = {}
+    courses = []
     for cid, uid, title, subtitle, day_posted, content in result:
         course = {
             "title": title,
@@ -90,8 +90,9 @@ def course(course_id):
             "day_posted": day_posted,
             "content": content
         }
+        courses.append(course)
 
-    return render_template('course.html', c_course = course)
+    return render_template('course.html', c_courses = courses)
 
 @server.route('/users/login', methods=['GET', 'POST'])
 def login():
