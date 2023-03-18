@@ -38,16 +38,9 @@
             <input type="radio" class="form-control" id="teacher" name="role" value="teacher">
             <label for="teacher">Викладач</label><br>
           </div>
-          {% if document.getElementById('student').checked) %}
-          <div class="form-group">
+          <div class="form-group" id="student_hide" hidden="hidden">
             <input type="text" class="form-control" name="lname" placeholder="Прізвище">
           </div>
-          {% endif %}
-          {% if document.getElementById('teacher').checked) %}
-          <div class="form-group">
-            <input type="text" class="form-control" name="fname" placeholder="Ім'я">
-          </div>
-          {% endif %}
           <button class="btn btn-primary btn-block">
             Додати нового користувача
           </button>
@@ -90,5 +83,5 @@
     </div>
   </div>
 </div>
-  
+
 {% endblock %}
