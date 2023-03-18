@@ -19,17 +19,17 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-        {% for course in courses %}
+        {% for key, value in c_courses.items() %}
           <div class="post-preview">
             <a href="">
               <h2 class="post-title">
-                {{ course["title"] }}
+                {{ key }}
               </h2>
               <h3 class="post-subtitle">
-                {{ course["subtitle"] }}
+                {{ value }}
               </h3>
             </a>
-            <p class="post-meta">Posted by {{ course["title"] }} on {{ course["title"] }}</p>
+            <p class="post-meta">Posted by  on </p>
           </div>
           {% endfor %}
           <hr>
