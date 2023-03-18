@@ -149,6 +149,10 @@ def adduser():
     fname = request.form['fname']
     lname = request.form['lname']
 
+    if login == '':
+        flash('Введіть логін!')
+        return redirect(url_for('admin')) 
+
     cursor = connection.cursor()
     cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
                    (login, password, email, fname, lname))
