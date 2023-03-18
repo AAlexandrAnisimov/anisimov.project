@@ -149,16 +149,12 @@ def adduser():
     fname = request.form['fname']
     lname = request.form['lname']
 
-    if login == '':
-        flash('Введіть логін!')
-    elif password == '':
-        flash('Введіть пароль!')
-    elif email == '':
-        flash('Введіть email!')
-    elif fname == '':
-        flash('Введіть ім я!')
-    elif lname == '':
-        flash('Введіть прізвище!')
+    if (login == '' or
+        password == '' or
+        email == '' or 
+        fname == '' or 
+        lname == ''):
+        flash('Заповніть усі поля!')
     else:
         cursor = connection.cursor()
         cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
