@@ -29,14 +29,17 @@ def index():
         cursor.execute("SELECT * FROM courses")
         contracts = cursor.fetchall()
 
-        #g.insurance = []
+        list = []
+        for post in contracts:
+            list.append(post)
+        #g.insurance = []   
         #if contracts != []:
         #    for real_tup in contracts:
         #        g.insurance.append('Тариф ' + str(real_tup[2]) + ' дійсний до ' + str(real_tup[5]))
         #else:
         #    g.insurance = 'Договір не укладено'
 
-        return render_template('index.html', post = contracts)
+        return render_template('index.html', posts = list)
 
 @server.route('/about')
 def about():

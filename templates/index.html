@@ -15,4 +15,26 @@
     </header>
     <hr>
 
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+        {% for post in posts %}
+          <div class="post-preview">
+            <a href="{{ url_for('post', post_id=post.id) }}">
+              <h2 class="post-title">
+                {{ post }}
+              </h2>
+              <h3 class="post-subtitle">
+                {{ post }}
+              </h3>
+            </a>
+            <p class="post-meta">Posted by {{ post }} on {{ post }}</p>
+          </div>
+          {% endfor %}
+          <hr>
+        </div>
+      </div>
+    </div>
+
 {% endblock %}
