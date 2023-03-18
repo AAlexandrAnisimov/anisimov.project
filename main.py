@@ -189,5 +189,17 @@ def delete(id):
     flash('Користувача успішно видалено')
     return redirect(url_for('admin'))
 
+@server.route('/edit/<id>', methods=['POST', 'GET'])
+def edit(id):
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM users WHERE user_id = (%s)', (id))
+    users_lst = cursor.fetchall()
+    connection.close()
+
+    return render_template('edit.html', users = users_lst[0])
+
 if __name__ == '__main__':
     server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
