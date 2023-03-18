@@ -155,9 +155,9 @@ def adduser():
         fname == '' or 
         lname == ''):
         flash('Заповніть усі поля!')
-    elif login.length() < 6:
+    elif len(login) < 6:
         flash('Логін занадто короткий (потрібно мінімум 6 символів)!')
-    elif password.length() < 6:
+    elif len(password) < 6:
         flash('Пароль занадто короткий (потрібно мінімум 6 символів)!')
     else:
         cursor = connection.cursor()
