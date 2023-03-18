@@ -66,7 +66,7 @@ def addcourse():
     return redirect(url_for("index"))
 
 
-@server.route('/course/<course_id>')
+@server.route('/course/<course_id>', methods=['GET'])
 def course(course_id):
 
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
@@ -75,7 +75,7 @@ def course(course_id):
     cursor = connection.cursor()
     cursor.execute("""SELECT get_course_info(%(u_id)s, %(c_id)s)""", {'u_id': g.user_id, 'c_id': course_id})
     result = cursor.fetchall()[0]
-    (course_id, user_id, title, subtitle, day_posted, content) = result[0][1:-1].split(',')
+    (c_id, user_id, title, subtitle, day_posted, content) = result[0][1:-1].split(',')
     connection.close()
     
     return render_template('course.html', c_title = title, c_subtitle = result[0])
