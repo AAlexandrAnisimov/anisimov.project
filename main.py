@@ -161,10 +161,18 @@ def adduser():
         flash('Пароль занадто короткий (потрібно мінімум 6 символів)!')
     else:
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
-                       (login, password, email, fname, lname))
-        flash('Користувача успішно додано')
-        connection.close()
+
+        cursor.execute("SELECT * FROM users WHERE users.user_login = (%s)", (login))
+        result = cursor.fetchall()
+
+        if result != []:
+            flash('Цей логін вже зайнято!')
+        else:
+
+            cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
+                          (login, password, email, fname, lname))
+            flash('Користувача успішно додано')
+            connection.close()
 
     return redirect(url_for('admin')) 
 
