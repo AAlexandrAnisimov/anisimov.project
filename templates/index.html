@@ -19,19 +19,18 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-        {% for key, value in c_courses.items() %}
+        
           <div class="post-preview">
             <a href="">
               <h2 class="post-title">
-                {{ key }}
+                {{% c_courses }}
               </h2>
               <h3 class="post-subtitle">
-                {{ value }}
+                
               </h3>
             </a>
             <p class="post-meta">Posted by  on </p>
           </div>
-          {% endfor %}
           <hr>
         </div>
       </div>
