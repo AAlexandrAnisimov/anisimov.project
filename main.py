@@ -29,13 +29,6 @@ def index():
         cursor.execute("SELECT * FROM courses")
         result = cursor.fetchall()
         connection.close()
-        
-        titls = []
-        subtitles = []
-        if result != []:
-            for course in result:
-                (c_id, u_id, title, subtitle, day_posted, content) = course[0][1:-1].split(',')
-                titls.append(title)
                 
         #g.insurance = []   
         #if contracts != []:
