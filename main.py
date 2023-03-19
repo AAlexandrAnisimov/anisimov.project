@@ -2,9 +2,14 @@ import os
 import psycopg2
 from flask import Flask, render_template, request, redirect, url_for, g, session, flash
 from config import Config
+import hashlib
 
 server = Flask(__name__)
 server.config.from_object(Config)
+
+def to_sha(hash_string):
+    sha_signature = hashlib.sha256(hash_string.encode()).hexdigest()
+    return sha_signature
 
 def get_user_by_login(login):
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
@@ -232,7 +237,7 @@ def adduser():
     connection.autocommit = True
 
     login = request.form['login']
-    password = request.form['password']
+    password = to_sha(request.form['password'])
     email = request.form['email']
     fname = request.form['fname']
     lname = request.form['lname']
