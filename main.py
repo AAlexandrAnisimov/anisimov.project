@@ -242,9 +242,21 @@ def delete(id):
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
     connection.autocommit = True
 
-    cursor = connection.cursor()
-    cursor.execute('DELETE FROM users WHERE user_id = {0}'.format(id))
-    flash('Користувача успішно видалено')
+    user = get_user_by_id(id)[0]
+    if user['role'] == 'admin':
+        flash('Адміністратора не може бути видалено')
+    else:
+        cursor = connection.cursor()
+        cursor.execute('DELETE FROM users WHERE user_id = {0}'.format(id))
+
+        if user['role'] == 'student':
+            cursor.execute('DELETE FROM students WHERE student_id = {0}'.format(id))
+        elif user['role'] == 'teacher':
+            cursor.execute('DELETE FROM teachers WHERE teacher_id = {0}'.format(id))
+
+        flash('Користувача успішно видалено')
+    
+    connection.close()
     return redirect(url_for('admin'))
 
 @server.route('/edit/<id>', methods=['POST', 'GET'])
