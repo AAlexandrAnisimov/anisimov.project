@@ -327,9 +327,10 @@ def update(id):
     connection.autocommit = True
 
     cursor = connection.cursor()
-    cursor.execute("""UPDATE users SET user_fname = %s, user_lname = %s, user_email = %s WHERE user_id = %s""",
-                  (fname, lname, email, id))
     
+    if role == 'student':
+        cursor.execute("""UPDATE users SET user_fname = %s, user_lname = %s, user_email = %s WHERE user_id = %s""",
+                  (fname, lname, email, id))
     
     connection.close()
 
