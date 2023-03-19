@@ -15,7 +15,14 @@ CREATE TABLE IF NOT EXISTS students(
     student_id INT NOT NULL,
     student_curator varchar(50),
     student_group varchar(50),
-    CONSTRAINT PK PRIMARY KEY (student_id)	
+    CONSTRAINT PK_S PRIMARY KEY (student_id)	
+)
+
+CREATE TABLE IF NOT EXISTS teachers(   
+    teacher_id INT NOT NULL,
+    teacher_title varchar(50),
+    teacher_degree varchar(50),
+    CONSTRAINT PK_T PRIMARY KEY (teacher_id)	
 )
 
 CREATE TABLE IF NOT EXISTS courses(

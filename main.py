@@ -167,6 +167,8 @@ def adduser():
     role = request.form['role']
     curator = request.form['curator']
     group = request.form['group']
+    degree = request.form['degree']
+    title = request.form['title']
 
     if (login == '' or
         password == '' or
@@ -194,7 +196,8 @@ def adduser():
                 cursor.execute("INSERT INTO students (student_id, student_curator, student_group) VALUES (%s, %s, %s)", 
                               (users_after_insert[0], curator, group))
             elif role == 'teacher':
-                flash('Користувача з таким логіном вже зареєстровано')
+                cursor.execute("INSERT INTO teachers (teacher_id, teacher_title, teacher_degree) VALUES (%s, %s, %s)", 
+                              (users_after_insert[0], degree, title))
 
             flash('Користувача успішно додано')
 
