@@ -183,37 +183,13 @@ def course(course_id):
 def login():
     if request.method == 'GET':
         return render_template('sign_in.html')
-    if request.method == 'POST':
+    elif request.method == 'POST':
         session.pop('user_id', None)
         session.pop('user_nickname', None)
         session.pop('user_role', None)
 
-        connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
-        connection.autocommit = True
-
-        login = request.form['login']
-        password = request.form['password']
-
-        cursor = connection.cursor()
-        cursor.callproc('login_user', (login, password))
-
-        exit_code = cursor.fetchall()[0][0]
-        if exit_code != -1:
-            session['user_id'] = exit_code
-            session['user_nickname'] = login
-
-            cursor.execute(f"SELECT get_user_info({session['user_id']})")
-            result = cursor.fetchall()[0]
-            (u_id, u_login, u_password, u_email, u_role) = result[0][1:-1].split(',')
-
-            session['user_role'] = u_role
-            connection.close()
-
-            return redirect(url_for("index"))
-        else:
-            connection.close()
-            flash('There is no user with that login')
-            return render_template('sign_in.html')
+        flash('There is no user with that login')
+        return render_template('sign_in.html')
         
 @server.route('/admin')
 def admin():

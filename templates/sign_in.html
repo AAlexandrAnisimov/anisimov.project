@@ -1,6 +1,19 @@
 {%extends 'jinja_forms.html'%}
 {% block content %}
 
+{% with messages = get_flashed_messages()  %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">×</span>
+  </button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
 <div class="container">
     <div class="card bg-light">
     <article class="card-body mx-auto" style="max-width: 600px;">
@@ -23,7 +36,7 @@
             <br>
             <div id="success"></div>
             <div class="form-group" id="submit_button">
-              <button type="submit" class="btn btn-primary btn-block">Увійти </button>
+              <button type="submit" class="btn btn-primary btn-block">Увійти</button>
             </div>
         </form>
     </article>
