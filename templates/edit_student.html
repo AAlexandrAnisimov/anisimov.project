@@ -13,13 +13,16 @@
             <input type="text" name="lname" value="{{ user['lname'] }}" class="form-control">
           </div>
           <div class="form-group">
-            <input type="text" name="email" value="{{ user['email'] }}" class="form-control">
+            <input type="email" name="email" value="{{ user['email'] }}" class="form-control">
           </div>
           <div class="form-group">
-            <input type="text" name="lname" value="{{ student['curator'] }}" class="form-control">
+            <input type="text" name="curator" value="{{ student['curator'] }}" class="form-control">
           </div>
           <div class="form-group">
-            <input type="text" name="email" value="{{ student['group'] }}" class="form-control">
+            <input type="text" name="group" value="{{ student['group'] }}" class="form-control">
+          </div>
+          <div class="form-group" style="display: none;">
+            <input type="text" name="role" value="student" class="form-control">
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">

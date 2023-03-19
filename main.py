@@ -322,12 +322,26 @@ def update(id):
     lname = request.form['lname']
     email = request.form['email']
 
+    role = request.form['role']
+    curator = request.form['curator']
+    group = request.form['group']
+    degree = request.form['degree']
+    title = request.form['title']
+
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
     connection.autocommit = True
 
     cursor = connection.cursor()
     cursor.execute("""UPDATE users SET user_fname = %s, user_lname = %s, user_email = %s WHERE user_id = %s""",
-                   (fname, lname, email, id))
+                  (fname, lname, email, id))
+    
+    if role == 'student':
+        cursor.execute("""UPDATE students SET student_curator = %s, student_group = %s WHERE student_id = %s""",
+                      (curator, group, id))
+    elif role == 'teacher':
+        cursor.execute("""UPDATE teachers SET teacher_title = %s, teacher_degree = %s WHERE teacher_id = %s""",
+                      (title, degree, id))
+    
     connection.close()
 
     return redirect(url_for('admin'))
