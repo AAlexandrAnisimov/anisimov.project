@@ -140,25 +140,7 @@ def index():
     if g.user_nickname == None:
         return redirect(url_for("login"))
     else:
-        connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
-        connection.autocommit = True
-        
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM courses")
-        result = cursor.fetchall()
-        connection.close()
-        
-        courses = []
-        for course_id, user_id, title, subtitle, day_posted, content in result:
-            course = {
-                "id": course_id,
-                "title": title,
-                "subtitle": subtitle,
-                "day_posted": day_posted
-            }
-            courses.append(course)
-
-        return render_template('index.html', c_courses = courses)
+        return render_template('index.html')   
 
 @server.route('/add')
 def add():
@@ -178,7 +160,6 @@ def addcourse():
     connection.close()
 
     return redirect(url_for("index"))
-
 
 @server.route('/course/<course_id>', methods=['GET'])
 def course(course_id):
