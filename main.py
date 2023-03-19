@@ -344,7 +344,6 @@ def update(id):
                       (title, degree, id))
     
     connection.close()
-
     return redirect(url_for('admin'))
 
 if __name__ == '__main__':
