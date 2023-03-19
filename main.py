@@ -261,26 +261,7 @@ def delete(id):
 
 @server.route('/edit/<id>', methods=['POST', 'GET'])
 def edit(id):
-    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
-    connection.autocommit = True
-
-    cursor = connection.cursor()
-    cursor.execute('SELECT * FROM users WHERE user_id = (%s)', (id))
-    result = cursor.fetchall()
-    connection.close()
-
-    users_lst = []
-    for uid, login, password, email, fn, ln, role in result:
-        user = {
-            "id": uid,
-            "login": login,
-            "password": password,
-            "email": email,
-            "fname": fn,
-            "lname": ln
-        }
-        users_lst.append(user)
-
+    users_lst = get_user_by_id(id)
     return render_template('edit.html', users = users_lst)
 
 @server.route('/update/<id>', methods=['POST'])
