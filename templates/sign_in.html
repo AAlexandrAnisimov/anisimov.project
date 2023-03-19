@@ -11,21 +11,13 @@
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                   <label>Логін</label>
-                  <input type="text" class="form-control" placeholder="Логін" pattern="[a-zA-Z0-9 ]+" name="login" id="title" required data-validation-required-message="Please enter your login.">
-                  <p class="help-block text-danger"></p>
-                  <div class="invalid-feedback">
-                    Будь ласка, введіть правильний логін!
-                  </div>
+                  <input type="text" class="form-control" placeholder="Логін" name="login" id="title">
                 </div>
             </div>
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                   <label>Пароль</label>
-                  <input type="password" class="form-control" placeholder="Пароль" name="password" id="password" required data-validation-required-message="Please enter your email address.">
-                  <p class="help-block text-danger"></p>
-                  <div class="invalid-feedback">
-                    Будь ласка, введіть правильний пароль!
-                  </div>
+                  <input type="password" class="form-control" placeholder="Пароль" name="password" id="password">
                 </div>
             </div>
             <br>
@@ -33,33 +25,9 @@
             <div class="form-group" id="submit_button">
               <button type="submit" class="btn btn-primary btn-block">Увійти </button>
             </div>
-            <p style="margin-bottom: 3px" class="text-center">Не маєте акаунта? <a href="">Реєстрація</a></p>
         </form>
     </article>
     </div>
-</div>
-
-<div class="row">
-  <div class="col-md-4 offset-md-4">
-    <div class="card card-body">
-      <form action="" method="POST">
-        <div class="form-group">
-          <input type="text" name="fname" value="" class="form-control">
-        </div>
-        <div class="form-group">
-          <input type="text" name="lname" value="" class="form-control">
-        </div>
-        <div class="form-group">
-          <input type="email" name="email" value="" class="form-control">
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-block">
-            Змінити
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
 </div>
 
 {% endblock %}
