@@ -148,13 +148,17 @@ def adduser():
     email = request.form['email']
     fname = request.form['fname']
     lname = request.form['lname']
+    
+    role = request.form['role']
+    curator = request.form['curator']
+    group = request.form['group']
 
     if (login == '' or
         password == '' or
         email == '' or 
         fname == '' or 
         lname == ''):
-        flash('Заповніть усі поля!')
+        flash('Заповніть усі поля, позначені *!')
     elif len(login) < 6:
         flash('Логін занадто короткий (потрібно мінімум 6 символів)!')
     elif len(password) < 6:
@@ -172,8 +176,8 @@ def adduser():
         if users != []:
             flash('Користувача з таким логіном вже зареєстровано')
         else:
-            cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname ) VALUES (%s, %s, %s, %s, %s)", 
-                          (login, password, email, fname, lname))
+            cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname, user_role ) VALUES (%s, %s, %s, %s, %s, %s)", 
+                          (login, password, email, fname, lname, role))
             flash('Користувача успішно додано')
 
     connection.close()
