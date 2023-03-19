@@ -6,6 +6,21 @@ from config import Config
 server = Flask(__name__)
 server.config.from_object(Config)
 
+def get_user_id_by_login(login):
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute("""SELECT * FROM users WHERE users.user_login = %(u_login)s""", {'u_login': login})
+    result = cursor.fetchall()
+    connection.close()
+
+    users = []
+    for uid, log, pas, em, fn, ln, r in result:
+        users.append(uid)
+
+    return users
+
 @server.before_request
 def before_request():
     g.user_id = None
@@ -164,27 +179,22 @@ def adduser():
     elif len(password) < 6:
         flash('Пароль занадто короткий (потрібно мінімум 6 символів)!')
     else:
-        cursor = connection.cursor()
-        
-        cursor.execute("""SELECT * FROM users WHERE users.user_login = %(u_login)s""", {'u_login': login})
-        result = cursor.fetchall()
-
-        users = []
-        for uid, log, pas, em, fn, ln, r in result:
-            users.append(uid)
+        users = get_user_id_by_login(login)
 
         if users != []:
             flash('Користувача з таким логіном вже зареєстровано')
         else:
+            cursor = connection.cursor()
             cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname, user_role ) VALUES (%s, %s, %s, %s, %s, %s)", 
                           (login, password, email, fname, lname, role))
             
-            cursor.execute("""SELECT * FROM users WHERE users.user_login = %(u_login)s""", {'u_login': login})
-            result = cursor.fetchall()
+            users_after_insert = get_user_id_by_login(login)
 
-            for uid, log, pas, em, fn, ln, r in result:
+            if role == 'student':
                 cursor.execute("INSERT INTO students (student_id, student_curator, student_group) VALUES (%s, %s, %s)", 
-                              (uid, curator, group))
+                              (users_after_insert[0], curator, group))
+            elif role == 'teacher':
+                flash('Користувача з таким логіном вже зареєстровано')
 
             flash('Користувача успішно додано')
 
