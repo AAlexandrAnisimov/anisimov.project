@@ -178,6 +178,14 @@ def adduser():
         else:
             cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname, user_role ) VALUES (%s, %s, %s, %s, %s, %s)", 
                           (login, password, email, fname, lname, role))
+            
+            cursor.execute("""SELECT * FROM users WHERE users.user_login = %(u_login)s""", {'u_login': login})
+            result = cursor.fetchall()
+
+            for uid, log, pas, em, fn, ln, r in result:
+                cursor.execute("INSERT INTO students (student_id, student_curator, student_group) VALUES (%s, %s, %s)", 
+                              (uid, curator, group))
+
             flash('Користувача успішно додано')
 
     connection.close()
