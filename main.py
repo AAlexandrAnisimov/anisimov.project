@@ -54,6 +54,26 @@ def get_user_by_id(id):
 
     return users
 
+def get_student_by_id(id):
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM students WHERE student_id = {0}'.format(id))
+    result = cursor.fetchall()
+    connection.close()
+
+    students = []
+    for sid, curator, group in result:
+        student = {
+            "id": sid,
+            "curator": curator,
+            "group": group
+        }
+        students.append(student)
+
+    return students
+
 @server.before_request
 def before_request():
     g.user_id = None
@@ -262,7 +282,8 @@ def delete(id):
 @server.route('/edit/<id>', methods=['POST', 'GET'])
 def edit(id):
     users_lst = get_user_by_id(id)
-    return render_template('edit.html', users = users_lst)
+    students_lst = get_student_by_id(id)
+    return render_template('edit.html', users = users_lst, students = students_lst)
 
 @server.route('/update/<id>', methods=['POST'])
 def update(id):
