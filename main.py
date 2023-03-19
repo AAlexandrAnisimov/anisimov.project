@@ -35,6 +35,31 @@ def get_user_by_login(login):
 
     return users
 
+def get_user_by_login_and_password(login, password):
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute("""SELECT * FROM users WHERE users.user_login = %(u_login)s AND users.user_password = %(u_pass)s""",
+                    {'u_login': login, 'u_pass': password})
+    result = cursor.fetchall()
+    connection.close()
+
+    users = []
+    for uid, login, password, email, fname, lname, role in result:
+        user = {
+            "id": uid,
+            "login": login,
+            "password": password,
+            "email": email,
+            "fname": fname,
+            "lname": lname,
+            "role": role
+        }
+        users.append(user)
+
+    return users
+
 def get_user_by_id(id):
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
     connection.autocommit = True
@@ -188,7 +213,18 @@ def login():
         session.pop('user_nickname', None)
         session.pop('user_role', None)
 
-        flash('There is no user with that login')
+        login = request.form['login']
+        password = request.form['password']
+
+        users = get_user_by_login_and_password(login, password)
+
+        if users != []:
+            session['user_id'] = users[0]['id']
+            session['user_nickname'] = login
+            session['user_role'] = users[0]['role']
+            return redirect(url_for("index"))
+        
+        flash('Неправильний пароль чи логін')
         return render_template('sign_in.html')
         
 @server.route('/admin')
