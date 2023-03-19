@@ -336,6 +336,12 @@ def update(id):
 
         cursor.execute("""UPDATE students SET student_curator = %s, student_group = %s WHERE student_id = %s""",
                       (curator, group, id))
+    elif role == 'teacher':
+        title = request.form['title']
+        degree = request.form['degree']
+
+        cursor.execute("""UPDATE teachers SET teacher_title = %s, teacher_degree = %s WHERE teacher_id = %s""",
+                      (title, degree, id))
     
     connection.close()
 
