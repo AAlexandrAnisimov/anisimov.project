@@ -135,10 +135,6 @@ def index():
 
         return render_template('index.html', c_courses = courses)
 
-@server.route('/about')
-def about():
-    return render_template('about.html')
-
 @server.route('/add')
 def add():
     return render_template('add.html')
@@ -186,7 +182,7 @@ def course(course_id):
 @server.route('/users/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template('users/sign_in.html')
+        return render_template('sign_in.html')
     if request.method == 'POST':
         session.pop('user_id', None)
         session.pop('user_nickname', None)
@@ -217,7 +213,7 @@ def login():
         else:
             connection.close()
             flash('There is no user with that login')
-            return render_template('users/sign_in.html')
+            return render_template('sign_in.html')
         
 @server.route('/admin')
 def admin():
