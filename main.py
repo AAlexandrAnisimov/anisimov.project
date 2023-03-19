@@ -6,7 +6,7 @@ from config import Config
 server = Flask(__name__)
 server.config.from_object(Config)
 
-def get_user_id_by_login(login):
+def get_user_by_login(login):
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
     connection.autocommit = True
 
@@ -16,8 +16,41 @@ def get_user_id_by_login(login):
     connection.close()
 
     users = []
-    for uid, log, pas, em, fn, ln, r in result:
-        users.append(uid)
+    for uid, login, password, email, fname, lname, role in result:
+        user = {
+            "id": uid,
+            "login": login,
+            "password": password,
+            "email": email,
+            "fname": fname,
+            "lname": lname,
+            "role": role
+        }
+        users.append(user)
+
+    return users
+
+def get_user_by_id(id):
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM users WHERE user_id = {0}'.format(id))
+    result = cursor.fetchall()
+    connection.close()
+
+    users = []
+    for uid, login, password, email, fname, lname, role in result:
+        user = {
+            "id": uid,
+            "login": login,
+            "password": password,
+            "email": email,
+            "fname": fname,
+            "lname": lname,
+            "role": role
+        }
+        users.append(user)
 
     return users
 
@@ -181,7 +214,7 @@ def adduser():
     elif len(password) < 6:
         flash('Пароль занадто короткий (потрібно мінімум 6 символів)!')
     else:
-        users = get_user_id_by_login(login)
+        users = get_user_by_login(login)
 
         if users != []:
             flash('Користувача з таким логіном вже зареєстровано')
@@ -190,14 +223,14 @@ def adduser():
             cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname, user_role ) VALUES (%s, %s, %s, %s, %s, %s)", 
                           (login, password, email, fname, lname, role))
             
-            users_after_insert = get_user_id_by_login(login)
+            users_after_insert = get_user_by_login(login)
 
             if role == 'student':
                 cursor.execute("INSERT INTO students (student_id, student_curator, student_group) VALUES (%s, %s, %s)", 
-                              (users_after_insert[0], curator, group))
+                              (users_after_insert[0]['id'], curator, group))
             elif role == 'teacher':
                 cursor.execute("INSERT INTO teachers (teacher_id, teacher_title, teacher_degree) VALUES (%s, %s, %s)", 
-                              (users_after_insert[0], degree, title))
+                              (users_after_insert[0]['id'], degree, title))
 
             flash('Користувача успішно додано')
 
