@@ -74,6 +74,26 @@ def get_student_by_id(id):
 
     return students
 
+def get_teacher_by_id(id):
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM teachers WHERE teacher_id = {0}'.format(id))
+    result = cursor.fetchall()
+    connection.close()
+
+    teachers = []
+    for sid, title, degree in result:
+        teacher = {
+            "id": sid,
+            "title": title,
+            "degree": degree
+        }
+        teachers.append(teacher)
+
+    return teachers
+
 @server.before_request
 def before_request():
     g.user_id = None
@@ -282,9 +302,20 @@ def delete(id):
 @server.route('/edit/<id>', methods=['POST', 'GET'])
 def edit(id):
     users_lst = get_user_by_id(id)
-    students_lst = get_student_by_id(id)
-    return render_template('edit.html', users = users_lst, students = students_lst)
 
+    students_lst = []
+    teachers_lst = []
+
+    if users_lst[0]['role'] == 'student':
+        students_lst = get_student_by_id(id)
+        return render_template('edit_student.html', users = users_lst, students = students_lst)
+    if users_lst[0]['role'] == 'teacher':
+        teachers_lst = get_teacher_by_id(id)
+        return render_template('edit_teacher.html', users = users_lst, teachers = teachers_lst)
+    
+    flash('Щось пішло не так...')
+    return redirect(url_for('admin'))
+    
 @server.route('/update/<id>', methods=['POST'])
 def update(id):
     fname = request.form['fname']
