@@ -210,6 +210,22 @@ def course(course_id):
 
     return render_template('course.html', courses = courses_lst)
 
+@server.route('/profile')
+def profile():
+    if g.user_role == 'teacher':
+        connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI']) 
+        connection.autocommit = True
+
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM courses WHERE fk_teacher_id = {0}'.format(g.user_id))
+        courses_lst = cursor.fetchall()
+        connection.close()
+
+        return render_template('profile.html', courses = courses_lst)
+    else:
+        redirect(url_for("index"))
+
+
 @server.route('/admin')
 def admin():
 
