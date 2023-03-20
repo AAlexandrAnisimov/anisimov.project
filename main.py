@@ -359,6 +359,11 @@ def login():
             session['user_id'] = users[0]['id']
             session['user_login'] = login
             session['user_role'] = users[0]['role']
+
+            g.user_id = users[0]['id']
+            g.user_login = login
+            g.user_role = users[0]['role']
+
             return redirect(url_for("index"))
         
         flash('Неправильний пароль чи логін')
