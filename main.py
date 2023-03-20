@@ -224,7 +224,7 @@ def profile():
         user = get_user_by_id(g.user_id)
         teacher = get_teacher_by_id(g.user_id)
 
-        return render_template('profile.html', courses = courses_lst, users = user, teachers = teacher)
+        return render_template('users/profile.html', courses = courses_lst, users = user, teachers = teacher)
     else:
         redirect(url_for("index"))
 
@@ -240,7 +240,7 @@ def admin():
         users_lst = cursor.fetchall()
         connection.close()
 
-        return render_template('admin.html', users = users_lst)
+        return render_template('users/admin.html', users = users_lst)
     else:
         redirect(url_for("index"))
 
