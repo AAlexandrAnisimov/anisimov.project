@@ -165,7 +165,7 @@ def index():
 
 @server.route('/course/add', methods=['GET', 'POST'])
 def addcourse():
-    if request.method == 'GET' and g.user_role == 'teacher':
+    if request.method == 'GET':
         return render_template('add_course.html')
     else:
         title = request.form['title']
@@ -210,18 +210,15 @@ def course(course_id):
 
 @server.route('/admin')
 def admin():
-    if g.user_role == 'admin':
-        connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI']) 
-        connection.autocommit = True
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI']) 
+    connection.autocommit = True
 
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM users")
-        users_lst = cursor.fetchall()
-        connection.close()
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM users")
+    users_lst = cursor.fetchall()
+    connection.close()
 
-        return render_template('admin.html', users = users_lst)
-    else:
-        return redirect(url_for('index'))
+    return render_template('admin.html', users = users_lst)
 
 @server.route('/admin/add', methods=['POST'])
 def adduser():
@@ -366,17 +363,6 @@ def login():
         
         flash('Неправильний пароль чи логін')
         return render_template('login.html')
-
-@server.route('/auth/logout')
-def logout():
-    session.pop('user_id', None)
-    session.pop('user_login', None)
-    session.pop('user_role', None)
-    g.user_id = None
-    g.user_login = None
-    g.user_role = None
-
-    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
