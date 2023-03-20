@@ -327,10 +327,10 @@ def edituser(id):
 
     if users_lst[0]['role'] == 'student':
         students_lst = get_student_by_id(id)
-        return render_template('edit_student.html', users = users_lst, students = students_lst)
+        return render_template('users/edit_user.html', users = users_lst, students = students_lst)
     if users_lst[0]['role'] == 'teacher':
         teachers_lst = get_teacher_by_id(id)
-        return render_template('edit_teacher.html', users = users_lst, teachers = teachers_lst)
+        return render_template('users/edit_user.html', users = users_lst, teachers = teachers_lst)
     
     flash('Щось пішло не так...')
     return redirect(url_for('admin'))
