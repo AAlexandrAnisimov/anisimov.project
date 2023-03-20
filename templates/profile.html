@@ -15,13 +15,15 @@
       {% endfor %}
       {% endif %}
       {% endwith %}
+
+      {% for user in users %}
       <div class="card card-body">
         <form action="" method="POST">
           <div class="form-group">
-            <input type="text" class="form-control" name="login" placeholder="Логін">
+            <input type="text" class="form-control" value="{{ user['login'] }}" name="login">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" name="password" placeholder="Пароль">
+            <input type="text" class="form-control" value="{{ user['password'] }}" name="password">
           </div>
           <button class="btn btn-primary btn-block">
             Змінити пароль
@@ -32,34 +34,33 @@
       <div class="card card-body">
         <form action="" method="POST">
           <div class="form-group">
-            <input type="text" class="form-control" name="fname" placeholder="Ім'я">
+            <input type="text" class="form-control" value="{{ user['fname'] }}" name="fname">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" name="lname" placeholder="Прізвище">
+            <input type="text" class="form-control" value="{{ user['lname'] }}" name="lname">
           </div>
           <div class="form-group">
-            <input type="email" class="form-control" name="email" placeholder="Email">
+            <input type="email" class="form-control" value="{{ user['email'] }}" name="email">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" name="degree" placeholder="Вчене звання"><br>
+            <input type="text" class="form-control" name="degree" placeholder="Вчене звання">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" name="title" placeholder="Посада"><br>
+            <input type="text" class="form-control" name="title" placeholder="Посада">
           </div>
           <button class="btn btn-primary btn-block">
             Змінити інформацію про себе
           </button>
         </form>
       </div>
+      {% endfor %}
     </div>
     <div class="col-md-8">
       <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
           <tr>
-            <td>ID</td>
             <td>Заголовок</td>
             <td>Підзаголовок</td>
-            <td>Опис</td>
             <td>Дата публікації</td>
             <td></td>
             <td></td>
@@ -69,11 +70,9 @@
         <tbody>
           {% for row in courses %}
           <tr>
-            <td>{{row[0]}}</td>
             <td>{{row[2]}}</td>
             <td>{{row[3]}}</td>
-            <td>{{row[4]}}</td>
-            <td>{{row[5]}}</td>
+            <td>{{row[4].strftime('%B %d, %Y')}}</td>
             <td>
               <a href="/course/{{row[0]}}" class="btn btn-primary btn-sm">Переглянути</a>
             </td>

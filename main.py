@@ -221,10 +221,11 @@ def profile():
         courses_lst = cursor.fetchall()
         connection.close()
 
-        return render_template('profile.html', courses = courses_lst)
+        user = get_user_by_id(g.user_id)
+
+        return render_template('profile.html', courses = courses_lst, users = user)
     else:
         redirect(url_for("index"))
-
 
 @server.route('/admin')
 def admin():
