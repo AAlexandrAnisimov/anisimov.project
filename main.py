@@ -166,7 +166,7 @@ def index():
 @server.route('/course/add', methods=['GET', 'POST'])
 def addcourse():
     if request.method == 'GET' and g.user_role == 'teacher':
-        return render_template('add_course.html')
+        return render_template('courses/add_course.html')
     elif request.method == 'POST' and g.user_role == 'teacher':
         title = request.form['title']
         subtitle = request.form['subtitle']
@@ -208,7 +208,7 @@ def course(course_id):
         }
         courses_lst.append(course)
 
-    return render_template('course.html', courses = courses_lst)
+    return render_template('courses/course.html', courses = courses_lst)
 
 @server.route('/profile')
 def profile():
