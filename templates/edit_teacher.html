@@ -5,7 +5,7 @@
       <div class="card card-body">
         {% for user in users %}
         {% for teacher in teachers %}
-        <form action="/update/{{user['id']}}" method="POST">
+        <form action="/user/update/{{user['id']}}" method="POST">
           <div class="form-group">
             <input type="text" name="fname" value="{{ user['fname'] }}" class="form-control">
           </div>

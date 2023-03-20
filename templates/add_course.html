@@ -22,36 +22,29 @@
           <form name="addForm" id="addForm" method="POST" action="{{ url_for('addcourse') }}" novalidate>
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
-                <label>Title</label>
+                <label>Заголовок</label>
                 <input type="text" class="form-control" placeholder="Title" name="title" id="title" required data-validation-required-message="Please enter a title.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
-                <label>Subtitle</label>
-                <input type="text" class="form-control" placeholder="Subtitle" name="subtitle" id="subtitle" required data-validation-required-message="Please enter your email address.">
-                <p class="help-block text-danger"></p>
-              </div>
-            </div>
-            <div class="control-group">
-              <div class="form-group col-xs-12 floating-label-form-group controls">
-                <label>Author</label>
-                <input type="text" class="form-control" placeholder="Author" name="author" id="author" required data-validation-required-message="Please enter your phone number.">
+                <label>Підзаголовок</label>
+                <input type="text" class="form-control" placeholder="Subtitle" name="subtitle" id="subtitle" required data-validation-required-message="Please enter a subtitle.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
-                <label>Blog Content</label>
-                <textarea rows="5" class="form-control" placeholder="Blog content" name="content" id="content" required data-validation-required-message="Please enter a message."></textarea>
+                <label>Опис</label>
+                <textarea rows="5" class="form-control" placeholder="Blog content" name="content" id="content" required data-validation-required-message="Please enter a content."></textarea>
                 <p class="help-block text-danger"></p>
               </div>
             </div>
             <br>
             <div id="success"></div>
             <div class="form-group">
-              <button type="submit" class="btn btn-secondary" id="sendMessageButton">Send</button>
+              <button type="submit" class="btn btn-primary btn-block" id="sendMessageButton">Додати</button>
             </div>
           </form>
         </div>

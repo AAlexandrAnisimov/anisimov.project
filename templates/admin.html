@@ -6,7 +6,7 @@
       {% with messages = get_flashed_messages()  %}
       {% if messages %}
       {% for message in messages %}
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <div class="alert alert-primary alert-dismissible fade show" role="alert">
         {{ message }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">×</span>
@@ -82,10 +82,10 @@
             <td>{{row[5]}}</td>
             <td>{{row[6]}}</td>
             <td>
-              <a href="/edit/{{row[0]}}" class="btn btn-secondary btn-sm">Змінити</a>
+              <a href="/user/edit/{{row[0]}}" class="btn btn-secondary btn-sm">Змінити</a>
             </td>
             <td width="130">
-                <a href="/delete/{{row[0]}}" class="btn btn-danger btn-delete btn-sm">Видалити</a>
+                <a href="/admin/delete/{{row[0]}}" class="btn btn-danger btn-delete btn-sm">Видалити</a>
               </td>
           </tr>
           {% endfor %}

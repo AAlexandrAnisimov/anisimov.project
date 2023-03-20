@@ -2,7 +2,7 @@
 {% block content %}
 
   {%include 'nav.html' %}
-  {% for course in c_courses %}
+  {% for course in courses %}
     <!-- Page Header -->
     <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/post-bg.jpg') }}')">
       <div class="container">
@@ -11,7 +11,7 @@
             <div class="post-heading">
               <h1>{{ course['title'] }}</h1>
               <h2 class="subheading">{{ course['subtitle'] }}</h2>
-              <span class="meta">Posted by
+              <span class="meta">Posted by {{ course['posted_by'] }}
                 on {{ course['day_posted'].strftime('%B %d, %Y') }} </span>
             </div>
           </div>

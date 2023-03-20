@@ -1,8 +1,8 @@
 import os
 import psycopg2
+import hashlib
 from flask import Flask, render_template, request, redirect, url_for, g, session, flash
 from config import Config
-import hashlib
 
 server = Flask(__name__)
 server.config.from_object(Config)
@@ -35,13 +35,12 @@ def get_user_by_login(login):
 
     return users
 
-def get_user_by_login_and_password(login, password):
+def get_user_by_id(id):
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
     connection.autocommit = True
 
     cursor = connection.cursor()
-    cursor.execute("""SELECT * FROM users WHERE users.user_login = %(u_login)s AND users.user_password = %(u_pass)s""",
-                    {'u_login': login, 'u_pass': password})
+    cursor.execute('SELECT * FROM users WHERE user_id = {0}'.format(id))
     result = cursor.fetchall()
     connection.close()
 
@@ -60,12 +59,13 @@ def get_user_by_login_and_password(login, password):
 
     return users
 
-def get_user_by_id(id):
+def get_user_by_login_and_password(login, password):
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
     connection.autocommit = True
 
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM users WHERE user_id = {0}'.format(id))
+    cursor.execute("""SELECT * FROM users WHERE users.user_login = %(u_login)s AND users.user_password = %(u_pass)s""",
+                    {'u_login': login, 'u_pass': password})
     result = cursor.fetchall()
     connection.close()
 
@@ -127,18 +127,18 @@ def get_teacher_by_id(id):
 @server.before_request
 def before_request():
     g.user_id = None
-    g.user_nickname = None
+    g.user_login = None
     g.user_role = None
 
-    if ('user_id' in session) and ('user_role' in session) and ('user_nickname' in session):
+    if ('user_id' in session) and ('user_role' in session) and ('user_login' in session):
         g.user_id = session['user_id']
-        g.user_nickname = session['user_nickname']
+        g.user_login = session['user_login']
         g.user_role = session['user_role']
 
 @server.route('/')
 def index():
-    if g.user_nickname == None:
-        return redirect(url_for("login"))
+    if g.user_login == None:
+        return redirect(url_for('login'))
     else:
         connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
         connection.autocommit = True
@@ -148,87 +148,69 @@ def index():
         result = cursor.fetchall()
         connection.close()
         
-        courses = []
-        for course_id, user_id, title, subtitle, day_posted, content in result:
+        courses_lst = []
+        for course_id, t_id, title, subtitle, content, day_posted in result:
+            user = get_user_by_id(t_id)[0]
             course = {
                 "id": course_id,
                 "title": title,
                 "subtitle": subtitle,
+                "content": content,
+                "posted_by": user['login'],
                 "day_posted": day_posted
             }
-            courses.append(course)
+            courses_lst.append(course)
 
-        return render_template('index.html', c_courses = courses)
+        return render_template('index.html', courses = courses_lst)
 
-@server.route('/add')
-def add():
-    return render_template('add.html')
-
-@server.route('/addcourse', methods=['POST'])
+@server.route('/course/add', methods=['GET', 'POST'])
 def addcourse():
-    title = request.form['title']
-    subtitle = request.form['subtitle']
-    content = request.form['content']
+    if request.method == 'GET':
+        return render_template('add_course.html')
+    else:
+        title = request.form['title']
+        subtitle = request.form['subtitle']
+        content = request.form['content']
 
-    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
-    connection.autocommit = True
+        connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+        connection.autocommit = True
 
-    cursor = connection.cursor()
-    cursor.callproc('create_course', (g.user_id, title, subtitle, content))
-    connection.close()
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO courses (fk_teacher_id, course_title, course_subtitle, course_content) VALUES (%s, %s, %s, %s)", 
+                      (g.user_id, title, subtitle, content))
+        connection.close()
 
-    return redirect(url_for("index"))
+        return redirect(url_for("index"))
 
 @server.route('/course/<course_id>', methods=['GET'])
 def course(course_id):
-
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
     connection.autocommit = True
 
     cursor = connection.cursor()
-    cursor.execute("""SELECT * FROM courses WHERE courses.course_id = %(c_id)s AND courses.fk_user_id = %(u_id)s""",
-                   {'c_id': course_id, 'u_id': g.user_id})
+    cursor.execute("""SELECT * FROM courses WHERE courses.course_id = %(c_id)s""",
+                   {'c_id': course_id})
     result = cursor.fetchall()
     connection.close()
 
-    courses = []
-    for cid, uid, title, subtitle, day_posted, content in result:
+    courses_lst = []
+    for course_id, t_id, title, subtitle, content, day_posted in result:
+        user = get_user_by_id(t_id)[0]
         course = {
+            "id": course_id,
             "title": title,
             "subtitle": subtitle,
-            "day_posted": day_posted,
-            "content": content
+            "content": content,
+            "posted_by": user['login'],
+            "day_posted": day_posted
         }
-        courses.append(course)
+        courses_lst.append(course)
 
-    return render_template('course.html', c_courses = courses)
+    return render_template('course.html', courses = courses_lst)
 
-@server.route('/users/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'GET':
-        return render_template('sign_in.html')
-    elif request.method == 'POST':
-        session.pop('user_id', None)
-        session.pop('user_nickname', None)
-        session.pop('user_role', None)
-
-        login = request.form['login']
-        password = to_sha(request.form['password'])
-
-        users = get_user_by_login_and_password(login, password)
-
-        if users != []:
-            session['user_id'] = users[0]['id']
-            session['user_nickname'] = login
-            session['user_role'] = users[0]['role']
-            return redirect(url_for("index"))
-        
-        flash('Неправильний пароль чи логін')
-        return render_template('sign_in.html')
-        
 @server.route('/admin')
 def admin():
-    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI']) 
     connection.autocommit = True
 
     cursor = connection.cursor()
@@ -238,13 +220,14 @@ def admin():
 
     return render_template('admin.html', users = users_lst)
 
-@server.route('/adduser', methods=['POST'])
+@server.route('/admin/add', methods=['POST'])
 def adduser():
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
     connection.autocommit = True
 
     login = request.form['login']
-    password = to_sha(request.form['password'])
+    password = request.form['password']
+    sha_password = to_sha(password)
     email = request.form['email']
     fname = request.form['fname']
     lname = request.form['lname']
@@ -261,10 +244,10 @@ def adduser():
         fname == '' or 
         lname == ''):
         flash('Заповніть усі поля, позначені *!')
-    elif len(login) < 6:
-        flash('Логін занадто короткий (потрібно мінімум 6 символів)!')
-    elif len(password) < 6:
-        flash('Пароль занадто короткий (потрібно мінімум 6 символів)!')
+    elif len(login) < 8:
+        flash('Логін занадто короткий (потрібно мінімум 8 символів)!')
+    elif len(password) < 8:
+        flash('Пароль занадто короткий (потрібно мінімум 8 символів)!')
     else:
         users = get_user_by_login(login)
 
@@ -273,7 +256,7 @@ def adduser():
         else:
             cursor = connection.cursor()
             cursor.execute("INSERT INTO users (user_login, user_password, user_email, user_fname, user_lname, user_role ) VALUES (%s, %s, %s, %s, %s, %s)", 
-                          (login, password, email, fname, lname, role))
+                          (login, sha_password, email, fname, lname, role))
             
             users_after_insert = get_user_by_login(login)
 
@@ -289,8 +272,8 @@ def adduser():
     connection.close()
     return redirect(url_for('admin')) 
 
-@server.route('/delete/<string:id>', methods=['POST', 'GET'])
-def delete(id):
+@server.route('/admin/delete/<string:id>', methods=['POST', 'GET'])
+def deleteuser(id):
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
     connection.autocommit = True
 
@@ -311,8 +294,8 @@ def delete(id):
     connection.close()
     return redirect(url_for('admin'))
 
-@server.route('/edit/<id>', methods=['POST', 'GET'])
-def edit(id):
+@server.route('/user/edit/<id>', methods=['POST', 'GET'])
+def edituser(id):
     users_lst = get_user_by_id(id)
 
     students_lst = []
@@ -328,8 +311,8 @@ def edit(id):
     flash('Щось пішло не так...')
     return redirect(url_for('admin'))
     
-@server.route('/update/<id>', methods=['POST'])
-def update(id):
+@server.route('/user/update/<id>', methods=['POST'])
+def updateuser(id):
     fname = request.form['fname']
     lname = request.form['lname']
     email = request.form['email']
@@ -357,6 +340,29 @@ def update(id):
     
     connection.close()
     return redirect(url_for('admin'))
+
+@server.route('/auth/login', methods=['POST', 'GET'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        session.pop('user_id', None)
+        session.pop('user_login', None)
+        session.pop('user_role', None)
+
+        login = request.form['login']
+        password = to_sha(request.form['password'])
+
+        users = get_user_by_login_and_password(login, password)
+
+        if users != []:
+            session['user_id'] = users[0]['id']
+            session['user_login'] = login
+            session['user_role'] = users[0]['role']
+            return redirect(url_for("index"))
+        
+        flash('Неправильний пароль чи логін')
+        return render_template('login.html')
 
 if __name__ == '__main__':
     server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
