@@ -254,6 +254,18 @@ def editcourse(course_id):
     else:
         return redirect(url_for("index"))
 
+@server.route('/course/delete/<course_id>', methods=['GET', 'POST'])
+def editcourse(course_id):
+    if g.user_role == 'teacher':
+        connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+        connection.autocommit = True
+        cursor = connection.cursor()
+
+        cursor.execute('DELETE FROM courses WHERE course_id = {0}'.format(course_id))
+        connection.close()
+
+    return redirect(url_for('admin'))
+
 @server.route('/profile')
 def profile():
     if g.user_role == 'teacher':
