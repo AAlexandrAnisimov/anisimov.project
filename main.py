@@ -165,9 +165,9 @@ def index():
 
 @server.route('/course/add', methods=['GET', 'POST'])
 def addcourse():
-    if request.method == 'GET':
+    if request.method == 'GET' and g.user_role == 'teacher':
         return render_template('add_course.html')
-    else:
+    elif request.method == 'POST' and g.user_role == 'teacher':
         title = request.form['title']
         subtitle = request.form['subtitle']
         content = request.form['content']
@@ -180,6 +180,8 @@ def addcourse():
                       (g.user_id, title, subtitle, content))
         connection.close()
 
+        return redirect(url_for("index"))
+    else:
         return redirect(url_for("index"))
 
 @server.route('/course/<course_id>', methods=['GET'])
@@ -210,15 +212,19 @@ def course(course_id):
 
 @server.route('/admin')
 def admin():
-    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI']) 
-    connection.autocommit = True
 
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM users")
-    users_lst = cursor.fetchall()
-    connection.close()
+    if g.user_role == 'admin':
+        connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI']) 
+        connection.autocommit = True
 
-    return render_template('admin.html', users = users_lst)
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM users")
+        users_lst = cursor.fetchall()
+        connection.close()
+
+        return render_template('admin.html', users = users_lst)
+    else:
+        redirect(url_for("index"))
 
 @server.route('/admin/add', methods=['POST'])
 def adduser():
