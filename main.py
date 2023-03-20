@@ -222,8 +222,9 @@ def profile():
         connection.close()
 
         user = get_user_by_id(g.user_id)
+        teacher = get_teacher_by_id(g.user_id)
 
-        return render_template('profile.html', courses = courses_lst, users = user)
+        return render_template('profile.html', courses = courses_lst, users = user, teachers = teacher)
     else:
         redirect(url_for("index"))
 
