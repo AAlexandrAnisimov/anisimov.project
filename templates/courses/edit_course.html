@@ -8,47 +8,48 @@
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
             <div class="page-heading">
-              <h1>Додати курс</h1>
+              <h1>Змінити курс</h1>
             </div>
           </div>
         </div>
       </div>
     </header>
-
+    {% for course in courses %}
     <!-- Main Content -->
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <form name="addForm" id="addForm" method="POST" action="{{ url_for('addcourse') }}" novalidate>
+          <form name="addForm" id="addForm" method="POST" action="{{ url_for('editcourse', course_id=course['id']) }}" novalidate>
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
                 <label>Заголовок</label>
-                <input type="text" class="form-control" placeholder="Заголовок" name="title" id="title" required data-validation-required-message="Please enter a title.">
+                <input type="text" class="form-control" placeholder="Заголовок" value="{{ course['title'] }}" name="title" id="title" required data-validation-required-message="Please enter a title.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
                 <label>Підзаголовок</label>
-                <input type="text" class="form-control" placeholder="Підзаголовок" name="subtitle" id="subtitle" required data-validation-required-message="Please enter a subtitle.">
+                <input type="text" class="form-control" placeholder="Підзаголовок" value="{{ course['subtitle'] }}" name="subtitle" id="subtitle" required data-validation-required-message="Please enter a subtitle.">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
                 <label>Опис</label>
-                <textarea rows="5" class="form-control" placeholder="Опис" name="content" id="content" required data-validation-required-message="Please enter a content."></textarea>
+                <textarea rows="5" class="form-control" placeholder="Опис" value="{{ course['content'] }}" name="content" id="content" required data-validation-required-message="Please enter a content."></textarea>
                 <p class="help-block text-danger"></p>
               </div>
             </div>
             <br>
             <div id="success"></div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-block" id="sendMessageButton">Додати</button>
+              <button type="submit" class="btn btn-primary btn-block" id="sendMessageButton">Змінити</button>
             </div>
           </form>
         </div>
       </div>
     </div>
     <hr>
+    {% endfor %}
     {% endblock %}

@@ -124,6 +124,28 @@ def get_teacher_by_id(id):
 
     return teachers
 
+def get_course_by_id(id):
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM courses WHERE course_id = {0}'.format(id))
+    result = cursor.fetchall()
+    connection.close()
+
+    courses = []
+    for course_id, t_id, title, subtitle, content, day_posted in result:
+        course = {
+            "id": course_id,
+            "title": title,
+            "subtitle": subtitle,
+            "content": content,
+            "day_posted": day_posted
+        }
+        courses.append(course)
+
+    return courses
+
 @server.before_request
 def before_request():
     g.user_id = None
@@ -209,6 +231,28 @@ def course(course_id):
         courses_lst.append(course)
 
     return render_template('courses/course.html', courses = courses_lst)
+
+@server.route('/course/edit/<course_id>', methods=['GET', 'POST'])
+def editcourse(course_id):
+    if request.method == 'GET' and g.user_role == 'teacher':
+        courses_lst = get_course_by_id(course_id)
+        return render_template('courses/edit_course.html', courses = courses_lst)
+    elif request.method == 'POST' and g.user_role == 'teacher':
+        title = request.form['title']
+        subtitle = request.form['subtitle']
+        content = request.form['content']
+
+        connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+        connection.autocommit = True
+
+        cursor = connection.cursor()
+        cursor.execute("""UPDATE courses SET course_title = %s, course_subtitle = %s, course_content = %s WHERE course_id = %s""",
+                      (title, subtitle, content, course_id))
+        connection.close()
+
+        return redirect(url_for("index"))
+    else:
+        return redirect(url_for("index"))
 
 @server.route('/profile')
 def profile():
@@ -306,7 +350,7 @@ def deleteuser(id):
         connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
         connection.autocommit = True
         cursor = connection.cursor()
-        
+
         if user['role'] == 'teacher':
             cursor.execute('DELETE FROM courses WHERE fk_teacher_id = {0}'.format(id))
             cursor.execute('DELETE FROM teachers WHERE teacher_id = {0}'.format(id))
