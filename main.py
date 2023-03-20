@@ -303,18 +303,19 @@ def deleteuser(id):
     if user['role'] == 'admin':
         flash('Адміністратора не може бути видалено')
     else:
+        connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+        connection.autocommit = True
+        cursor = connection.cursor()
+        
         if user['role'] == 'teacher':
             cursor.execute('DELETE FROM courses WHERE fk_teacher_id = {0}'.format(id))
             cursor.execute('DELETE FROM teachers WHERE teacher_id = {0}'.format(id))
         elif user['role'] == 'student':
             cursor.execute('DELETE FROM students WHERE student_id = {0}'.format(id))
 
-        connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
-        connection.autocommit = True
-        cursor = connection.cursor()
         cursor.execute('DELETE FROM users WHERE user_id = {0}'.format(id))
         connection.close()
-        
+
         flash('Користувача успішно видалено')
     
     return redirect(url_for('admin'))
