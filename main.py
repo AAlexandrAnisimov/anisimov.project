@@ -264,7 +264,7 @@ def deletecourse(course_id):
         cursor.execute('DELETE FROM courses WHERE course_id = {0}'.format(course_id))
         connection.close()
 
-    return redirect(url_for('index'))
+    return redirect(url_for('profile'))
 
 @server.route('/profile')
 def profile():
