@@ -165,9 +165,9 @@ def index():
 
 @server.route('/course/add', methods=['GET', 'POST'])
 def addcourse():
-    if request.method == 'GET':
+    if request.method == 'GET' and g.user_role == 'teacher':
         return render_template('add_course.html')
-    else:
+    elif request.method == 'POST':
         title = request.form['title']
         subtitle = request.form['subtitle']
         content = request.form['content']
@@ -180,6 +180,8 @@ def addcourse():
                       (g.user_id, title, subtitle, content))
         connection.close()
 
+        return redirect(url_for("index"))
+    else:
         return redirect(url_for("index"))
 
 @server.route('/course/<course_id>', methods=['GET'])
@@ -210,15 +212,18 @@ def course(course_id):
 
 @server.route('/admin')
 def admin():
-    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI']) 
-    connection.autocommit = True
+    if g.user_id == 'admin':
+        connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI']) 
+        connection.autocommit = True
 
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM users")
-    users_lst = cursor.fetchall()
-    connection.close()
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM users")
+        users_lst = cursor.fetchall()
+        connection.close()
 
-    return render_template('admin.html', users = users_lst)
+        return render_template('admin.html', users = users_lst)
+    else:
+        return redirect(url_for('index'))
 
 @server.route('/admin/add', methods=['POST'])
 def adduser():
@@ -272,7 +277,7 @@ def adduser():
     connection.close()
     return redirect(url_for('admin')) 
 
-@server.route('/admin/delete/<string:id>', methods=['POST', 'GET'])
+@server.route('/admin/delete/<string:id>', methods=['POST'])
 def deleteuser(id):
     connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
     connection.autocommit = True
@@ -343,7 +348,7 @@ def updateuser(id):
 
 @server.route('/auth/login', methods=['POST', 'GET'])
 def login():
-    if request.method == 'GET':
+    if request.method == 'GET' and g.user_login == None:
         return render_template('login.html')
     elif request.method == 'POST':
         session.pop('user_id', None)
@@ -363,6 +368,8 @@ def login():
         
         flash('Неправильний пароль чи логін')
         return render_template('login.html')
+    else:
+        return redirect(url_for('index'))
 
 @server.route('/auth/logout')
 def logout():
