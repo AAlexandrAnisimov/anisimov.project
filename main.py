@@ -255,7 +255,7 @@ def editcourse(course_id):
         return redirect(url_for("index"))
 
 @server.route('/course/delete/<course_id>', methods=['GET', 'POST'])
-def editcourse(course_id):
+def deletecourse(course_id):
     if g.user_role == 'teacher':
         connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
         connection.autocommit = True
