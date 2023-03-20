@@ -364,5 +364,17 @@ def login():
         flash('Неправильний пароль чи логін')
         return render_template('login.html')
 
+@server.route('/auth/logout')
+def logout():
+    session.pop('user_id', None)
+    session.pop('user_login', None)
+    session.pop('user_role', None)
+
+    g.user_id = None
+    g.user_login = None
+    g.user_role = None
+
+    return redirect(url_for('login'))
+
 if __name__ == '__main__':
     server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))

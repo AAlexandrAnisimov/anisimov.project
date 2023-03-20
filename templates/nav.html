@@ -8,9 +8,16 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
+          {% if g.user_role == 'admin' %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+            <a class="nav-link" href="{{ url_for('admin') }}">Адмін. панель</a>
           </li>
+          {% endif %}
+          {% if g.user_role == 'teacher' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('addcourse') }}">Додати курс</a>
+          </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('addcourse') }}">Add</a>
           </li>
