@@ -149,6 +149,16 @@ def index():
         connection.close()
         
         courses_lst = []
+        for course_id, t_id, title, subtitle, content, day_posted in result:
+            course = {
+                "id": course_id,
+                "title": title,
+                "subtitle": subtitle,
+                "content": content,
+                "posted_by": "Zeleboba",
+                "day_posted": day_posted
+            }
+            courses_lst.append(course)
 
         return render_template('index.html', courses = courses_lst)
 
