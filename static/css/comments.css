@@ -37,3 +37,5 @@
 .rating:hover>input:checked~label:before {
     opacity: 0.4
 }
+
+.link-muted { color: #aaa; } .link-muted:hover { color: #1266f1; }
