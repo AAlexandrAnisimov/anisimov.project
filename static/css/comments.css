@@ -1,11 +1,9 @@
 .rating {
 display: flex;
 flex-direction: row-reverse;
-margin-left: -4px;
-float: left
 }
 .rating>input {
-display: none
+
 }
 .rating>label {
 position: relative;
