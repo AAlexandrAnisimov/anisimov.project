@@ -32,6 +32,30 @@
 
     <hr>
 
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+        {% for review in reviews %}
+          <div class="post-preview">
+            <a href="">
+              <h3 class="post-title">
+                {{ review['pros'] }}
+              </h3>
+              <h3 class="post-subtitle">
+                {{ review['cons'] }}
+              </h3>
+              <h3 class="post-subtitle">
+                {{ review['comment'] }}
+              </h3>
+            </a>
+            <p class="post-meta">Posted by {{ review['posted_by'] }} on {{ review['day_posted'].strftime('%B %d, %Y') }} </p>
+          </div>
+          <hr>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
     {% if g.user_role == 'student' %}
     <div class="container">
       <div class="card bg-light">

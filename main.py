@@ -230,7 +230,30 @@ def course(course_id):
         }
         courses_lst.append(course)
 
-    return render_template('courses/course.html', courses = courses_lst)
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute("""SELECT * FROM reviews WHERE reviews.fk_course_id = %(c_id)s""",
+                   {'c_id': course_id})
+    result2 = cursor.fetchall()
+    connection.close()
+
+    reviews_lst = []
+    for review_id, s_id, c_id, score, pros, cons, comment, day_posted in result2:
+        user = get_user_by_id(s_id)[0]
+        review = {
+            "id": review_id,
+            "score": score,
+            "pros": pros,
+            "cons": cons,
+            "comment": comment,
+            "posted_by": user['login'],
+            "day_posted": day_posted
+        }
+        reviews_lst.append(review)
+
+    return render_template('courses/course.html', courses = courses_lst, reviews = reviews_lst)
 
 @server.route('/course/edit/<course_id>', methods=['GET', 'POST'])
 def editcourse(course_id):
