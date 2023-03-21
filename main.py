@@ -3,18 +3,9 @@ import psycopg2
 import hashlib
 from flask import Flask, render_template, request, redirect, url_for, g, session, flash
 from config import Config
-from flask_mail import Mail, Message
 
 server = Flask(__name__)
 server.config.from_object(Config)
-
-server.config['MAIL_SERVER']='sandbox.smtp.mailtrap.io'
-server.config['MAIL_PORT'] = 2525
-server.config['MAIL_USERNAME'] = '288e0a57d5543e'
-server.config['MAIL_PASSWORD'] = '6e391bb65f0905'
-server.config['MAIL_USE_TLS'] = True
-server.config['MAIL_USE_SSL'] = False
-mail = Mail(server)
 
 def to_sha(hash_string):
     sha_signature = hashlib.sha256(hash_string.encode()).hexdigest()
@@ -178,10 +169,6 @@ def index():
         cursor.execute("SELECT * FROM courses")
         result = cursor.fetchall()
         connection.close()
-
-        msg = Message('Hello from the other side!', sender = 'alexanisandr@gmail.com', recipients = ['anisoleksandr@gmail.com'])
-        msg.body = "Hey Alex, sending you this email from my Flask app, lmk if it works"
-        mail.send(msg)
         
         courses_lst = []
         for course_id, t_id, title, subtitle, content, day_posted in result:
