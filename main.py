@@ -10,8 +10,8 @@ server.config.from_object(Config)
 
 server.config['MAIL_SERVER']='sandbox.smtp.mailtrap.io'
 server.config['MAIL_PORT'] = 2525
-server.config['MAIL_USERNAME'] = '8c866ece6a66d9'
-server.config['MAIL_PASSWORD'] = '31644215b5cff1'
+server.config['MAIL_USERNAME'] = '288e0a57d5543e'
+server.config['MAIL_PASSWORD'] = '6e391bb65f0905'
 server.config['MAIL_USE_TLS'] = True
 server.config['MAIL_USE_SSL'] = False
 mail = Mail(server)
