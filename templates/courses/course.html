@@ -13,19 +13,19 @@
               <h2 class="subheading">{{ course['subtitle'] }}</h2>
               <span class="meta">Posted by {{ course['posted_by'] }}
                 on {{ course['day_posted'].strftime('%B %d, %Y') }} </span>
+              <article>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                      <span>{{ course['content']|safe }}</span>
+                    </div>
+                  </div>
+                </div>
+              </article>
             </div>
           </div>
         </div>
       </div>
-        <article>
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-8 col-md-10 mx-auto">
-              {{ course['content']|safe }}
-              </div>
-            </div>
-          </div>
-        </article>
     </header>
 
     <hr>
