@@ -61,30 +61,46 @@
       </article>
       </div>
     </div>
-    <section style="background-color: #d94125;">
+    <section style="background-color: #5a595f;">
       <div class="container my-5 py-5 text-dark">
         <div class="row d-flex justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-6">
             <div class="card">
               <div class="card-body p-4">
                 <div class="d-flex flex-start w-100">
-                  <img class="rounded-circle shadow-1-strong me-3"
-                    src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar" width="65"
-                    height="65" />
                   <div class="w-100">
                     <h5>Add a comment</h5>
-                    <div class="rating">
-                      <input type="radio" name="rating" value="5" id="5">
-                      <label for="5">☆</label>
-                      <input type="radio" name="rating" value="4" id="4">
-                      <label for="4">☆</label>
-                      <input type="radio" name="rating" value="3" id="3">
-                      <label for="3">☆</label>
-                      <input type="radio" name="rating" value="2" id="2">
-                      <label for="2">☆</label>
-                      <input type="radio" name="rating" value="1" id="1">
-                      <label for="1">☆</label>
-                    </div>
+                    <form action="" name="addForm" id="addForm" method="POST" class="needs-validation" novalidate>
+                      <div class="rating">
+                        <input type="radio" name="rating" value="5" id="5">
+                        <label for="5">☆</label>
+                        <input type="radio" name="rating" value="4" id="4">
+                        <label for="4">☆</label>
+                        <input type="radio" name="rating" value="3" id="3">
+                        <label for="3">☆</label>
+                        <input type="radio" name="rating" value="2" id="2">
+                        <label for="2">☆</label>
+                        <input type="radio" name="rating" value="1" id="1">
+                        <label for="1">☆</label>
+                      </div>
+                      <div class="control-group">
+                          <div class="form-group floating-label-form-group controls">
+                            <label>Переваги</label>
+                            <input type="text" class="form-control" placeholder="Логін" name="login" id="title">
+                          </div>
+                      </div>
+                      <div class="control-group">
+                          <div class="form-group floating-label-form-group controls">
+                            <label>Недоліки</label>
+                            <input type="password" class="form-control" placeholder="Пароль" name="password" id="password">
+                          </div>
+                      </div>
+                      <br>
+                      <div id="success"></div>
+                      <div class="form-group" id="submit_button">
+                        <button type="submit" class="btn btn-primary btn-block">Увійти</button>
+                      </div>
+                  </form>
                     <div class="form-outline">
                       <textarea class="form-control" id="textAreaExample" rows="4"></textarea>
                       <label class="form-label" for="textAreaExample">What is your view?</label>
@@ -100,6 +116,34 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="card bg-light">
+        <article class="card-body mx-auto" style="max-width: 600px;">
+            <br><br>
+            <h4 class="card-title mt-3 text-center">Додати відгукдо курсу</h4>
+            <br>
+            <form action="" name="addForm" id="addForm" method="POST" class="needs-validation" novalidate>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                      <label>Переваги</label>
+                      <input type="text" class="form-control" placeholder="Логін" name="login" id="title">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                      <label>Недоліки</label>
+                      <input type="password" class="form-control" placeholder="Пароль" name="password" id="password">
+                    </div>
+                </div>
+                <br>
+                <div id="success"></div>
+                <div class="form-group" id="submit_button">
+                  <button type="submit" class="btn btn-primary btn-block">Увійти</button>
+                </div>
+            </form>
+        </article>
         </div>
       </div>
     </section>
