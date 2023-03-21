@@ -37,18 +37,18 @@
         <div class="col-lg-8 col-md-10 mx-auto">
         {% for review in reviews %}
           <div class="post-preview">
+            <p class="post-meta">Відгук від {{ review['posted_by'] }}, {{ review['day_posted'].strftime('%B %d, %Y') }} </p>
             <a href="">
-              <h3 class="post-title">
-                {{ review['pros'] }}
+              <h3 class="post-subtitle">
+                <b>Переваги:</b>> {{ review['pros'] }}
               </h3>
               <h3 class="post-subtitle">
-                {{ review['cons'] }}
+                <b>Недоліки:</b>> {{ review['cons'] }}
               </h3>
               <h3 class="post-subtitle">
-                {{ review['comment'] }}
+                <b>Коментар:</b>> {{ review['comment'] }}
               </h3>
             </a>
-            <p class="post-meta">Posted by {{ review['posted_by'] }} on {{ review['day_posted'].strftime('%B %d, %Y') }} </p>
           </div>
           <hr>
           {% endfor %}
