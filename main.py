@@ -266,6 +266,24 @@ def deletecourse(course_id):
 
     return redirect(url_for('profile'))
 
+@server.route('/review/add', methods=['POST'])
+def addreview():
+    score = request.form['rating']
+    pros = request.form['pros']
+    cons = request.form['cons']
+    comment = request.form['comment']
+    course_id = request.form['course_id']
+
+    connection = psycopg2.connect(server.config['SQLALCHEMY_DATABASE_URI'])
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO reviews (fk_student_id, fk_course_id, review_score, review_pros, review_cons, review_comment) VALUES (%s, %s, %s, %s, %s, %s)", 
+                    (g.user_id, course_id, score, pros, cons, comment))
+    connection.close()
+
+    return redirect(url_for('course', course_id = course_id))
+
 @server.route('/profile')
 def profile():
     if g.user_role == 'teacher':
