@@ -6,8 +6,7 @@
 }
 
 .rating>h5 {
-    flex-direction: row;
-    float: left;
+    margin-right: 100px;
 }
 
 .rating>input {
