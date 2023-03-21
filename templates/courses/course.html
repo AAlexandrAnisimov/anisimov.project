@@ -16,19 +16,18 @@
             </div>
           </div>
         </div>
+            <!-- Post Content -->
+        <article>
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-8 col-md-10 mx-auto">
+              {{ course['content']|safe }}
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
     </header>
-
-    <!-- Post Content -->
-    <article>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            {{ course['content']|safe }}
-          </div>
-        </div>
-      </div>
-    </article>
 
     <hr>
 
@@ -40,13 +39,13 @@
             <p class="post-meta">Відгук від {{ review['posted_by'] }}, {{ review['day_posted'].strftime('%B %d, %Y') }} </p>
             <a href="">
               <h3 class="post-subtitle">
-                <b>Переваги:</b>> {{ review['pros'] }}
+                <b>Переваги:</b> {{ review['pros'] }}
               </h3>
               <h3 class="post-subtitle">
-                <b>Недоліки:</b>> {{ review['cons'] }}
+                <b>Недоліки:</b> {{ review['cons'] }}
               </h3>
               <h3 class="post-subtitle">
-                <b>Коментар:</b>> {{ review['comment'] }}
+                <b>Коментар:</b> {{ review['comment'] }}
               </h3>
             </a>
           </div>
