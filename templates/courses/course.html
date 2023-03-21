@@ -34,40 +34,33 @@
 
     {% if g.user_role == 'student' %}
     <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <form name="addForm" id="addForm" method="POST" action="{{ url_for('addcourse') }}" novalidate>
-            <div class="control-group">
-              <div class="form-group floating-label-form-group controls">
-                <label>Заголовок</label>
-                <input type="text" class="form-control" placeholder="Заголовок" name="title" id="title" required data-validation-required-message="Please enter a title.">
-                <p class="help-block text-danger"></p>
+      <div class="card bg-light">
+      <article class="card-body mx-auto" style="max-width: 600px;">
+          <br><br>
+          <h4 class="card-title mt-3 text-center">Додати коментар</h4>
+          <br>
+          <form action="{{url_for('login')}}" name="addForm" id="addForm" method="POST" class="needs-validation" novalidate>
+              <div class="control-group">
+                  <div class="form-group floating-label-form-group controls">
+                    <label>Логін</label>
+                    <input type="text" class="form-control" placeholder="Логін" name="login" id="title">
+                  </div>
               </div>
-            </div>
-            <div class="control-group">
-              <div class="form-group floating-label-form-group controls">
-                <label>Підзаголовок</label>
-                <input type="text" class="form-control" placeholder="Підзаголовок" name="subtitle" id="subtitle" required data-validation-required-message="Please enter a subtitle.">
-                <p class="help-block text-danger"></p>
+              <div class="control-group">
+                  <div class="form-group floating-label-form-group controls">
+                    <label>Пароль</label>
+                    <input type="password" class="form-control" placeholder="Пароль" name="password" id="password">
+                  </div>
               </div>
-            </div>
-            <div class="control-group">
-              <div class="form-group floating-label-form-group controls">
-                <label>Опис</label>
-                <textarea rows="5" class="form-control" placeholder="Опис" name="content" id="content" required data-validation-required-message="Please enter a content."></textarea>
-                <p class="help-block text-danger"></p>
+              <br>
+              <div id="success"></div>
+              <div class="form-group" id="submit_button">
+                <button type="submit" class="btn btn-primary btn-block">Увійти</button>
               </div>
-            </div>
-            <br>
-            <div id="success"></div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-block" id="sendMessageButton">Додати</button>
-            </div>
           </form>
-        </div>
+      </article>
       </div>
-    </div>
-    <hr>
+  </div>
     {% endif %}
   {% endfor %} 
 {% endblock %}
